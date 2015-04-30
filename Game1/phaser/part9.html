@@ -40,7 +40,7 @@ function preload() {
     game.load.image('spider', 'assets/used/spider.png');
     game.load.image('talisman', 'assets/used/talisman.png');
     game.load.image('wood', 'assets/used/wood.png');
-
+game.load.spritesheet('emotions', 'assets/emotions.png', 256, 256);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
 }
@@ -56,11 +56,20 @@ var redmantext;
 var redman2text;
 var beasttext;
 var npcs;
+//var items;
+var gamygdalaPlugin;
+var emotionEngine;
 
 var characters = ["ghost","redman","redman2","beast"];
 var needs = ["skull","bottle","pill","potion"];
 
 function create() {
+
+    //GAMYGDALA
+    gamygdalaPlugin= new Phaser.Plugin.GamygdalaWrapper();//create the Phaser plugin.
+    game.plugins.add(gamygdalaPlugin);//add the plugin to the game, as required by Phaser
+    emotionEngine=gamygdalaPlugin.getGamygdala(); //this gives you a ref to the actual underlying emotion engine, so that you can do what you need to do.
+
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -82,6 +91,8 @@ function create() {
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player.emotionAgent=emotionEngine.createAgent('player');
+
     
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
@@ -100,27 +111,42 @@ function create() {
      npcs.enableBody = true;
 
     //  We will enable physics for any star that is created in this group
-    var temp = npcs.create(10, 10, 'ghost');
+    var temp = npcs.create(10, 40, 'ghost');
+    temp.name = 'ghost';
+    temp.wants = "skull"
     temp = npcs.create(10, 300, 'redman');
+    temp.name = 'redman';
+    temp.wants = "bottle"
     temp = npcs.create(10, 550, 'redman2');
+    temp.name = 'redman2';
+    temp.wants = "pill"
     temp = npcs.create(450, 550, 'beast');
+    temp.name = 'beast';
+        temp.wants = "potion"
 
     for (var i = 0; i < npcs.length; i++) {
+
         var npc = npcs.getAt(i);
         npc.scale.x=3;
         npc.scale.y=3;
         npc.body.immovable = true;
+        npc.emotionAgent=emotionEngine.createAgent(npc.name);
+        game.plugins.add(new Phaser.Plugin.GamygdalaExpression(game, npcs.getAt(i), npcs.getAt(i).emotionAgent), false);
+
     }
     
     items = game.add.group();
     items.enableBody = true;
     var array = ["bottle","diamond","drink","heart","pill","potion","silver","skull","spider","talisman"];
+    var wantedBy = ["redman", "none", "none", "none", "redman2", "beast", "ghost", "none", ""]
     var x = 300;
     var y = 20;
     for(var i = 0; i<array.length; i++){
        temp = items.create(x,y, array[i]);
        temp.body.bounce.x = 2;
        temp.body.bounce.y = 2;
+       temp.name = array[i];
+       temp.wantedBy=wantedBy[i]
 
        x=x+100;
 
@@ -142,39 +168,24 @@ function create() {
 
 
     //  The score
-    ghosttext = game.add.text(npcs.getAt(0).world.x-1, npcs.getAt(0).world.y-10, 'hello my name is Bernd!',{ font: '12px Arial', fill: '#fff' });
-    redmantext = game.add.text(npcs.getAt(1).world.x-1, npcs.getAt(1).world.y-10, 'hello my name is Bernd!',{ font: '12px Arial', fill: '#fff' });
-    redman2text = game.add.text(npcs.getAt(2).world.x-1, npcs.getAt(2).world.y-10, 'hello my name is Bernd!',{ font: '12px Arial', fill: '#fff' });
-    beasttext = game.add.text(npcs.getAt(3).world.x-1, npcs.getAt(3).world.y-10, 'hello my name is Bernd!',{ font: '12px Arial', fill: '#fff' });
+    ghosttext = game.add.text(npcs.getAt(0).world.x-1, npcs.getAt(0).world.y-10, npcs.getAt(0).name,{ font: '12px Arial', fill: '#fff' });
+    redmantext = game.add.text(npcs.getAt(1).world.x-1, npcs.getAt(1).world.y-10, npcs.getAt(1).name,{ font: '12px Arial', fill: '#fff' });
+    redman2text = game.add.text(npcs.getAt(2).world.x-1, npcs.getAt(2).world.y-10, npcs.getAt(2).name,{ font: '12px Arial', fill: '#fff' });
+    beasttext = game.add.text(npcs.getAt(3).world.x-1, npcs.getAt(3).world.y-10, npcs.getAt(3).name,{ font: '12px Arial', fill: '#fff' });
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
 
 
-
-
-    //GAMYGDALA
-    gamygdalaPlugin= new Phaser.Plugin.GamygdalaWrapper();//create the Phaser plugin.
-    game.plugins.add(gamygdalaPlugin);//add the plugin to the game, as required by Phaser
-    emotionEngine=gamygdalaPlugin.getGamygdala(); //this gives you a ref to the actual underlying emotion engine, so that you can do what you need to do.
-    player.emotionAgent=emotionEngine.createAgent('player');
-
-    player.emotionAgent=emotionEngine.createAgent('ghost');
-    player.emotionAgent=emotionEngine.createAgent('redman');
-    player.emotionAgent=emotionEngine.createAgent('redman2');
-    player.emotionAgent=emotionEngine.createAgent('beast');
-
-
     gamygdalaPlugin.phaserManagedDecay=true;
     emotionEngine.setGain(20);
-    emotionEngine.setDecay(0.1, emotionEngine.linearDecay());
-
+    //motionEngine.setDecay(0.1, emotionEngine.linearDecay());
     //emotionEngine.createGoalForAgent('ghost','getskull', 1);
     //emotionEngine.createGoalForAgent('redman','getbottle', 1);
     //emotionEngine.createGoalForAgent('redman2','getpill', 1);
     //emotionEngine.createGoalForAgent('beast','getotion', 1);
 
-    for (var i = 0; i < characters.length; i++) {
-        emotionEngine.createGoalForAgent(characters[i],'get' + needs[i], 1);
+    for (var i = 0; i < npcs.length; i++) {
+        emotionEngine.createGoalForAgent(npcs.getAt(i).name,'get' + npcs.getAt(i).wants, 1);
         
     };
 
@@ -278,54 +289,20 @@ function pickup (item, npc) {
 
     item.kill();
 
-    var npcname = npc.name;
-    var itemname = item.name;
+    var npcName = npc.name;
     var index;
     var index2;
-    var correctItem;
-    var correctChar;
+
     var appraisal;
 
-    //looking for item of npc
-    for (var i = 0; i < characters.length; i++) {
-        if(characters[i] == npcname){
-            index = i;
-        }
-    };
-
-    //looking for npc of item
-    for (var i = 0; i < needs.length; i++) {
-        if(needs[i] == itemname){
-            index2 = i;
-        }
-    };
-
-    
-    correctItem = needs[index];
-    correctChar = characters[index2];
-
-    if(npc == correctChar){
+   if(item.wantedBy == npcName) {
         appraisal = 1;
     }
     else{
         appraisal=-1;
-        emotionEngine.appraiseBelief(1,npcname,['get'+correctItem],appraisal);
+        emotionEngine.appraiseBelief(1,npc,['get'+item.name],[appraisal]);
 
     }
-
-    emotionEngine.appraiseBelief(1,correctChar,['get'+itemname],appraisal);
-
-
-
-
-
-
-
-
-    
-    
-    
- 
 
 }
 
