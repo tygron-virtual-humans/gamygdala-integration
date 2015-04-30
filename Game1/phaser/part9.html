@@ -114,15 +114,19 @@ function create() {
     var temp = npcs.create(10, 40, 'ghost');
     temp.name = 'ghost';
     temp.wants = "skull"
+    temp.riddle = "I want to be rich some day, \n oh and have you seen parts of my skull collection?"
     temp = npcs.create(10, 300, 'redman');
     temp.name = 'redman';
     temp.wants = "bottle"
+    temp.riddle = "If someone steals my red items I will kill them"
     temp = npcs.create(10, 550, 'redman2');
     temp.name = 'redman2';
+    temp.riddle = "I love red items, but I heard someone else is also collecting them"
     temp.wants = "pill"
     temp = npcs.create(450, 550, 'beast');
     temp.name = 'beast';
-        temp.wants = "potion"
+    temp.riddle = "I don't like the way I look"
+    temp.wants = "potion"
 
     for (var i = 0; i < npcs.length; i++) {
 
@@ -132,6 +136,7 @@ function create() {
         npc.body.immovable = true;
         npc.emotionAgent=emotionEngine.createAgent(npc.name);
         game.plugins.add(new Phaser.Plugin.GamygdalaExpression(game, npcs.getAt(i), npcs.getAt(i).emotionAgent), false);
+        game.add.text(npcs.getAt(i).world.x-1, npcs.getAt(i).world.y-10, npcs.getAt(i).riddle,{ font: '12px Arial', fill: '#fff' });
 
     }
     
@@ -167,11 +172,6 @@ function create() {
     }
 
 
-    //  The score
-    ghosttext = game.add.text(npcs.getAt(0).world.x-1, npcs.getAt(0).world.y-10, npcs.getAt(0).name,{ font: '12px Arial', fill: '#fff' });
-    redmantext = game.add.text(npcs.getAt(1).world.x-1, npcs.getAt(1).world.y-10, npcs.getAt(1).name,{ font: '12px Arial', fill: '#fff' });
-    redman2text = game.add.text(npcs.getAt(2).world.x-1, npcs.getAt(2).world.y-10, npcs.getAt(2).name,{ font: '12px Arial', fill: '#fff' });
-    beasttext = game.add.text(npcs.getAt(3).world.x-1, npcs.getAt(3).world.y-10, npcs.getAt(3).name,{ font: '12px Arial', fill: '#fff' });
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -300,9 +300,9 @@ function pickup (item, npc) {
     }
     else{
         appraisal=-1;
-        emotionEngine.appraiseBelief(1,npc,['get'+item.name],[appraisal]);
-
+   
     }
+         emotionEngine.appraiseBelief(1,npc,['get'+item.name],[appraisal]);
 
 }
 
