@@ -1,0 +1,312 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Phaser - Making your first game, part 9</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="js/Gamygdala.js"></script>
+    <script type="text/javascript" src="js/GamygdalaPhaserPlugins.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(600, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+    game.load.image('background', 'assets/background.png');
+    game.load.image('ground', 'assets/platform.png');
+    //npcs
+    game.load.image('ghost', 'assets/used/ghost.png');
+    game.load.image('redman', 'assets/used/redman.png');
+    game.load.image('redman2', 'assets/used/redman2.png');
+    game.load.image('beast', 'assets/used/beast.png');
+
+    //items
+    game.load.image('bottle', 'assets/used/bottle.png');
+    game.load.image('diamond', 'assets/used/diamond.png');
+    game.load.image('drink', 'assets/used/drink.png');
+    game.load.image('heart', 'assets/used/heart.png');
+    game.load.image('pill', 'assets/used/pill.png');
+    game.load.image('potion', 'assets/used/potion.png');
+    game.load.image('silver', 'assets/used/silver.png');
+    game.load.image('skull', 'assets/used/skull.png');
+    game.load.image('spider', 'assets/used/spider.png');
+    game.load.image('talisman', 'assets/used/talisman.png');
+    game.load.image('wood', 'assets/used/wood.png');
+game.load.spritesheet('emotions', 'assets/emotions.png', 256, 256);
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+}
+
+var player;
+var platforms;
+var cursors;
+
+var stars;
+var score = 0;
+var ghosttext;
+var redmantext;
+var redman2text;
+var beasttext;
+var npcs;
+//var items;
+var gamygdalaPlugin;
+var emotionEngine;
+
+var characters = ["ghost","redman","redman2","beast"];
+var needs = ["skull","bottle","pill","potion"];
+
+function create() {
+
+    //GAMYGDALA
+    gamygdalaPlugin= new Phaser.Plugin.GamygdalaWrapper();//create the Phaser plugin.
+    game.plugins.add(gamygdalaPlugin);//add the plugin to the game, as required by Phaser
+    emotionEngine=gamygdalaPlugin.getGamygdala(); //this gives you a ref to the actual underlying emotion engine, so that you can do what you need to do.
+
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //  A simple background for our game
+    game.add.sprite(0, 0, 'background');
+
+    //  The platforms group contains the ground and the 2 ledges we can jump on
+    platforms = game.add.group();
+    //  We will enable physics for any object that is created in this group
+    platforms.enableBody = true;
+
+    //  Now let's create two ledges
+    var ledge = platforms.create(400, 400, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(-150, 250, 'ground');
+    ledge.body.immovable = true;
+
+    // The player and its settings
+    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player.emotionAgent=emotionEngine.createAgent('player');
+
+    
+    //  We need to enable physics on the player
+    game.physics.arcade.enable(player);
+
+    //  Player physics properties. Give the little guy a slight bounce.
+    //player.body.bounce.y = 0.2;
+    player.body.gravity.y = 0;
+    player.body.collideWorldBounds = true;
+
+    //  Our two animations, walking left and right.
+    player.animations.add('left', [0, 1, 2, 3], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+
+    //  Finally some stars to collect
+    npcs = game.add.group();
+     npcs.enableBody = true;
+
+    //  We will enable physics for any star that is created in this group
+    var temp = npcs.create(10, 40, 'ghost');
+    temp.name = 'ghost';
+    temp.wants = "skull"
+    temp.riddle = "I want to be rich some day, \n oh and have you seen parts of my skull collection?"
+    temp = npcs.create(10, 300, 'redman');
+    temp.name = 'redman';
+    temp.wants = "bottle"
+    temp.riddle = "If someone steals my red items I will kill them"
+    temp = npcs.create(10, 550, 'redman2');
+    temp.name = 'redman2';
+    temp.riddle = "I love red items, but I heard someone else is also collecting them"
+    temp.wants = "pill"
+    temp = npcs.create(450, 550, 'beast');
+    temp.name = 'beast';
+    temp.riddle = "I don't like the way I look"
+    temp.wants = "potion"
+
+    for (var i = 0; i < npcs.length; i++) {
+
+        var npc = npcs.getAt(i);
+        npc.scale.x=3;
+        npc.scale.y=3;
+        npc.body.immovable = true;
+        npc.emotionAgent=emotionEngine.createAgent(npc.name);
+        game.plugins.add(new Phaser.Plugin.GamygdalaExpression(game, npcs.getAt(i), npcs.getAt(i).emotionAgent), false);
+        game.add.text(npcs.getAt(i).world.x-1, npcs.getAt(i).world.y-10, npcs.getAt(i).riddle,{ font: '12px Arial', fill: '#fff' });
+
+    }
+    
+    items = game.add.group();
+    items.enableBody = true;
+    var array = ["bottle","diamond","drink","heart","pill","potion","silver","skull","spider","talisman"];
+    var wantedBy = ["redman", "none", "none", "none", "redman2", "beast", "ghost", "none", ""]
+    var x = 300;
+    var y = 20;
+    for(var i = 0; i<array.length; i++){
+       temp = items.create(x,y, array[i]);
+       temp.body.bounce.x = 2;
+       temp.body.bounce.y = 2;
+       temp.name = array[i];
+       temp.wantedBy=wantedBy[i]
+
+       x=x+100;
+
+       if(x>580){
+        x=300;
+        y=y+100;
+       }
+
+
+    }
+
+
+    for (var i = 0; i < items.length; i++) {
+        var item = items.getAt(i);
+        item.scale.x=1.5;
+        item.scale.y=1.5;
+        item.body.collideWorldBounds = true;
+    }
+
+
+    //  Our controls.
+    cursors = game.input.keyboard.createCursorKeys();
+
+
+    gamygdalaPlugin.phaserManagedDecay=true;
+    emotionEngine.setGain(20);
+    //motionEngine.setDecay(0.1, emotionEngine.linearDecay());
+    //emotionEngine.createGoalForAgent('ghost','getskull', 1);
+    //emotionEngine.createGoalForAgent('redman','getbottle', 1);
+    //emotionEngine.createGoalForAgent('redman2','getpill', 1);
+    //emotionEngine.createGoalForAgent('beast','getotion', 1);
+
+    for (var i = 0; i < npcs.length; i++) {
+        emotionEngine.createGoalForAgent(npcs.getAt(i).name,'get' + npcs.getAt(i).wants, 1);
+        
+    };
+
+    
+}
+
+function update() {
+
+    //  Collide the player and the stars with the platforms
+    game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(player, npcs);
+    game.physics.arcade.collide(player, items);
+    game.physics.arcade.collide(items, items);
+    game.physics.arcade.collide(items, platforms);
+
+    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+    game.physics.arcade.overlap(items, npcs, pickup, null, this);
+
+    //  Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
+ 
+
+
+    for (var i = 0; i < items.length; i++) {
+        var item = items.getAt(i);
+        var x = item.body.velocity.x;
+        var y = item.body.velocity.y;
+        item.body.velocity.x=0.95*item.body.velocity.x;
+        item.body.velocity.y=0.95*item.body.velocity.y;
+        if(Math.abs(x)<1 ){
+            item.body.velocity.x = 0;
+        }
+
+        if(Math.abs(y)<1){
+            item.body.velocity.y =0 ;
+        }
+        if(Math.abs(x)>200 ){
+            if(x>0){
+                item.body.velocity.x = 200;
+            }
+            else{
+                item.body.velocity.x = -200;
+            }
+            
+            
+        }
+        if(Math.abs(y)>200 ){
+             if(y>0){
+                item.body.velocity.y = 200;
+            }
+            else{
+                item.body.velocity.y = -200;
+            }
+            
+        }
+
+        item.body.collideWorldBounds = true;
+    }
+
+
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        player.body.velocity.x = -150;
+
+        player.animations.play('left');
+    }
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.x = 150;
+
+        player.animations.play('right');
+    }
+    else if (cursors.up.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.y = -150;
+
+        player.animations.play('right');
+    }
+    else if (cursors.down.isDown)
+    {
+        //  Move to the right
+        player.body.velocity.y = 150;
+
+        player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        player.animations.stop();
+
+        player.frame = 4;
+    }
+    
+}
+
+function pickup (item, npc) {
+
+    item.kill();
+
+    var npcName = npc.name;
+    var index;
+    var index2;
+
+    var appraisal;
+
+   if(item.wantedBy == npcName) {
+        appraisal = 1;
+    }
+    else{
+        appraisal=-1;
+   
+    }
+         emotionEngine.appraiseBelief(1,npc,['get'+item.name],[appraisal]);
+
+}
+
+</script>
+
+</body>
+</html>
