@@ -36,18 +36,12 @@ var items = {
 };
 
 var player;
-var bad_guys=[];
 var platforms;
 var cursors;
 
-var stars;
 var lifes;
 var score = 0;
 var scoreText;
-
-var hitTimer=0;
-var NR_OF_STARS=10;
-var NR_OF_BAD_GUYS=2;
 
 var SCREEN_SIZE = {"WIDTH": 600, "HEIGHT": 600};
 
@@ -78,30 +72,53 @@ function preload() {
 function create() {
 	game.add.sprite(0, 0, 'sky');
 
-	items.gieter.sprite = game.add.sprite(100, 100, items.gieter.name);
-	items.gieter.sprite.width = 64;
-	items.gieter.sprite.height = 64;
-	items.gieter.sprite.enableBody = true;
-	game.physics.arcade.enable(items.gieter.sprite);
-	items.gieter.sprite.body.gravity.y = 300;
-	items.gieter.sprite.body.collideWorldBounds = true;
-	items.gieter.sprite.body.bounce.x = 0.3;
-	items.gieter.sprite.body.bounce.y = 0.3;
-	items.gieter.sprite.body.drag.x = 100;
-
-	items.plant.sprite = game.add.sprite(300, 100, items.plant.name);
-	items.plant.sprite.width = 64;
-	items.plant.sprite.height = 64;
-	items.plant.sprite.enableBody = true;
-	game.physics.arcade.enable(items.plant.sprite);
-	items.plant.sprite.body.gravity.y = 300;
-	items.plant.sprite.body.collideWorldBounds = true;
-
-	// The player and its settings
 	player = game.add.sprite(32, game.world.height - 150, 'dude');
+
+	items.gieter.sprite = game.add.sprite(100, 100, items.gieter.name);
+	items.plant.sprite = game.add.sprite(300, 100, items.plant.name);
+	items.zon.sprite = game.add.sprite(SCREEN_SIZE.WIDTH - 200, 100, items.zon.name);
+	items.koffie.sprite = game.add.sprite(SCREEN_SIZE.WIDTH - 100, SCREEN_SIZE.HEIGHT-64, items.koffie.name);
+	items.hamburger.sprite = game.add.sprite(SCREEN_SIZE.WIDTH - 200, 10, items.hamburger.name);
+	items.groenten.sprite = game.add.sprite(SCREEN_SIZE.WIDTH - 100, 10, items.groenten.name);
 	
 	//  We need to enable physics on the player
 	game.physics.arcade.enable(player);
+	game.physics.arcade.enable(items.gieter.sprite);
+	game.physics.arcade.enable(items.plant.sprite);
+	game.physics.arcade.enable(items.zon.sprite);
+	game.physics.arcade.enable(items.koffie.sprite);
+	game.physics.arcade.enable(items.hamburger.sprite);
+	game.physics.arcade.enable(items.groenten.sprite);
+
+	items.gieter.sprite.width = 64;
+	items.gieter.sprite.height = 64;
+	items.gieter.sprite.enableBody = true;
+	items.gieter.sprite.body.gravity.y = 300;
+	items.gieter.sprite.body.collideWorldBounds = true;
+	items.gieter.sprite.body.bounce.x = 0.5;
+	items.gieter.sprite.body.bounce.y = 0.3;
+	items.gieter.sprite.body.drag.x = 200; // Friction
+
+	items.plant.sprite.width = 64;
+	items.plant.sprite.height = 64;
+	items.plant.sprite.enableBody = true;
+	items.plant.sprite.body.gravity.y = 300;
+	items.plant.sprite.body.collideWorldBounds = true;
+
+	items.zon.up = true;
+	items.zon.sprite.width = 100;
+	items.zon.sprite.height = 100;
+	items.zon.sprite.enableBody = true;
+
+	items.koffie.timeout = 0;
+	items.koffie.sprite.width = 64;
+	items.koffie.sprite.height = 64;
+
+	items.hamburger.sprite.width = 64;
+	items.hamburger.sprite.height = 64;
+
+	items.groenten.sprite.width = 64;
+	items.groenten.sprite.height = 64;
 	
 	player.body.collideWorldBounds = true;
 
@@ -120,61 +137,131 @@ function create() {
 
 	cursors = game.input.keyboard.createCursorKeys();
 	
-	gamygdalaPlugin=new Phaser.Plugin.GamygdalaWrapper();//create the Phaser plugin.
+	gamygdalaPlugin = new Phaser.Plugin.GamygdalaWrapper();//create the Phaser plugin.
 	game.plugins.add(gamygdalaPlugin);//add the plugin to the game, as required by Phaser
-	emotionEngine=gamygdalaPlugin.getGamygdala(); //this gives you a ref to the actual underlying emotion engine, so that you can do what you need to do.
+	emotionEngine = gamygdalaPlugin.getGamygdala(); //this gives you a ref to the actual underlying emotion engine, so that you can do what you need to do.
 	
 	player.emotionAgent=emotionEngine.createAgent('player');
-	
-	emotionEngine.createGoalForAgent('player','survive', 0.7);
-	emotionEngine.createGoalForAgent('player','win', 1);
+	items.plant.sprite.emotionAgent=emotionEngine.createAgent('plant');
+
+	emotionEngine.createGoalForAgent('player','wakker', 0.3, true);
+	emotionEngine.createGoalForAgent('player','honger', -1, true);
+
+	emotionEngine.createGoalForAgent('plant','grow', 1);
+	emotionEngine.createGoalForAgent('plant','shadow', -1, true);
+
+	emotionEngine.createRelation('player', 'plant',0.3);
 
 	game.plugins.add(new Phaser.Plugin.GamygdalaExpression(game, player, player.emotionAgent));
-	gamygdalaPlugin.phaserManagedDecay=true;
-	emotionEngine.setGain(5);
+	game.plugins.add(new Phaser.Plugin.GamygdalaExpression(game, items.plant.sprite, items.plant.sprite.emotionAgent));
+	gamygdalaPlugin.phaserManagedDecay = true;
+	emotionEngine.setDecay(0.7, emotionEngine.exponentialDecay);
+	emotionEngine.setGain(10);
 }
 
 function update() {
-
 	game.physics.arcade.collide(player, platforms);
 	game.physics.arcade.collide(player, items.gieter.sprite);
+	game.physics.arcade.collide(player, items.zon.sprite);
 
 	game.physics.arcade.overlap(items.gieter.sprite, items.plant.sprite, callPlant, null, this);
+
+	game.physics.arcade.overlap(player, items.koffie.sprite, callKoffie, null, this);
+	game.physics.arcade.overlap(player, items.hamburger.sprite, callHamburger, null, this);
+	game.physics.arcade.overlap(player, items.groenten.sprite, callGroenten, null, this);
 	
-	if (hitTimer<=0){
-		// Reset the players velocity (movement)
-		player.body.velocity.x = 0;
-		player.body.velocity.y = 0;
+	// Reset the players velocity (movement)
+	player.body.velocity.x = 0;
+	player.body.velocity.y = 0;
 
-		// Horizontal movement
-		if (cursors.left.isDown) {
-			player.body.velocity.x = -500;
-		} else if (cursors.right.isDown) {
-			player.body.velocity.x = 500;
-		} else {
-			player.body.velocity.x = 0;
-		}
-		
-		// Vertical movement
-		if (cursors.down.isDown) {
-			player.body.velocity.y = 500;
+	var velocity = player.emotionAgent.getPADState(true)[0] * 250 + 250;
 
-		} else if (cursors.up.isDown) {
-			player.body.velocity.y = -500;
-		} else {
-			player.body.velocity.y = 0;
-		}
+	// Horizontal movement
+	if (cursors.left.isDown) {
+		player.body.velocity.x = -velocity;
+	} else if (cursors.right.isDown) {
+		player.body.velocity.x = velocity;
 	} else {
-		hitTimer--;
+		player.body.velocity.x = 0;
+	}
+	
+	// Vertical movement
+	if (cursors.down.isDown) {
+		player.body.velocity.y = velocity;
+
+	} else if (cursors.up.isDown) {
+		player.body.velocity.y = -velocity;
+	} else {
+		player.body.velocity.y = 0;
+	}
+
+	if (items.zon.up && (items.zon.sprite.x > SCREEN_SIZE.WIDTH || items.zon.sprite.x + items.zon.sprite.width < 0 || items.zon.sprite.y > SCREEN_SIZE.HEIGHT || items.zon.sprite.y + items.zon.sprite.height < 0)) {
+		emotionEngine.appraiseBelief(1,'plant',['shadow'],[0.2], true);
+		emotionEngine.appraiseBelief(1,'plant',['grow'],[-0.2], true);
+		items.plant.sprite.emotionAgent.removeGoal('shadow');
+
+		emotionEngine.appraiseBelief(1,'player',['wakker'],[-0.2], false);
+		
+		items.zon.up = false;
+		items.zon.sprite.x = -1000;
+		items.zon.sprite.y = 100;
+		items.zon.sprite.body.velocity.x = 100;
+		items.zon.sprite.body.velocity.y = 0;
+	} else if (items.zon.up == false && items.zon.sprite.x >= 100) {
+		items.zon.up = true;
+		items.zon.sprite.body.velocity.x = 0;
+
+		emotionEngine.appraiseBelief(1,'player',['wakker'],[0.2], true);
+
+		emotionEngine.appraiseBelief(1,'plant',['grow'],[0.1], true);
+		items.plant.sprite.emotionAgent.addGoal(emotionEngine.getGoalByName('shadow'));
+	}
+
+	if (items.koffie.timeout > 0) {
+		items.koffie.timeout--;
+	}
+
+	if (items.zon.up && items.plant.sprite.width <= 200) {
+		var oldSize = {"width": items.plant.sprite.width, "height": items.plant.sprite.height};
+
+		var growRate = 1 + (items.plant.sprite.emotionAgent.getGoalByName('grow').likelihood - 0.5)/100; //between 1 and 1.05
+
+		items.plant.sprite.width *= growRate;
+		items.plant.sprite.x -= (items.plant.sprite.width - oldSize.width) /2;
+
+		items.plant.sprite.height *= growRate;
+		items.plant.sprite.y -= items.plant.sprite.height - oldSize.height;
+	}	
+}
+
+function callPlant(gieter, plant) {
+	items.gieter.sprite.x = 100;
+	items.gieter.sprite.y = 100;
+	items.gieter.sprite.body.velocity.x = 0;
+	items.gieter.sprite.body.velocity.y = 0;
+
+	emotionEngine.appraiseBelief(1,'plant',['grow'],[0.2], true);
+	score += 1;
+	scoreText.text = 'Score: ' + score;
+}
+
+function callKoffie(player, koffie) {
+	if (items.koffie.timeout == 0) {
+		emotionEngine.appraiseBelief(1,'player',['wakker', 'honger'],[0.4, 0.2], true);
+		items.koffie.timeout = 300;
 	}
 }
 
-function callPlant(player, plant) {
-	emotionEngine.appraiseBelief(1,'player',['win'],[0.3], true);
-	score += 1;
-	scoreText.text = 'Score: ' + score; 
+function callHamburger(player, hamburger) {
+	hamburger.kill();
 
-	plant.kill();
+	emotionEngine.appraiseBelief(1,'player',['honger'],[-0.4], true);
+}
+
+function callGroenten(player, groenten) {
+	groenten.kill();
+
+	emotionEngine.appraiseBelief(1,'player',['honger'],[-0.5], true);
 }
 
 </script>
