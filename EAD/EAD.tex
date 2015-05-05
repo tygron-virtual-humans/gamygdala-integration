@@ -1,0 +1,59 @@
+\documentclass[]{article}
+\usepackage{glossaries}
+\makenoidxglossaries
+
+\newglossaryentry{computer}
+{
+	name=computer,
+	description={is a programmable machine that receives input,
+		stores and manipulates data, and provides
+		output in a useful format}
+}
+
+\newglossaryentry{computer2}
+{
+	name=computer2,
+	description={is a programmable machine that receives input,
+		stores and manipulates data, and provides
+		output in a useful format2}
+}
+
+
+% Title Page
+\title{Emergent Architecture Design}
+\author{GROUP: GOAL-Integration}
+
+
+\begin{document}
+
+
+\section{Introduction}
+This group will create an integration of the Gamygdala engine in the programming language GOAL.
+\subsection{Goals}
+In this project we have multiple goals. Besides the goals between the different groups which can be found in the product vision document we also have goals that are group specific. We think that it is very important for us that we have good code quality. Also functionality is important.
+
+\subsubsection{Source code quality}
+We think that it is important to have readible code that is wel written with the correct design patterns. Other software engineering principles we have learned so far should also be used appropriately and correctly. For example: Method sizes.
+
+\subsubsection{Functionality}
+By testing in different ways we want our code to be very functional. Since our job is to create an integration, functionality is the most important goal for our team.
+
+
+\section{Software Architecture}
+When a user is creating a virtual human in the programming language GOAL, they should be able to use the Gamygdala engine in an easy and understandable way.
+\subsection{Programming languages}
+We will work in javascript and Java. This is because GOAL is written in Java and the Gamygdala engine is written in Javascript. Both these languages we have learned in the first year of the bachelor Computer Science.Mostly we will be working in the source code of GOAL and find a way to build an integration of a javascript engine in a programming language written in Java. For this we also need to have implement a port from javascript to java for Gamygdala.
+\subsection{Tests}
+Testing of the software will be done mostly in the JUnit framework since we are writing Java code. The port between javascript and java also needs to be tested thoroughly. Also we will have continious integration during our project which means that everytime our project gets built and we get a report of tests but also source code quality discussed in the next section.
+
+\subsection{Code Quality}
+During this project our group wil use the pull-request way of developping code. This wil make sure that the quality is maintained since nothing can be merged to the master without permission of atleast to other student. It works like this. You create your own branch of the master and then you start coding. When you are finished you push your code to the branch (which is a mirror of the master except for your new implementations). After this you make a request of your branch being pulled to the master (hence pul requests). Then your colleague students can see this on GitHub and comment,reply and approve or dissaprove. When atleast 2 other student finally agree after you made adjustments they can allow you to merge your branch with the master. It helps our group in 2 ways. First of all it makes sure we do code reviews and think about what other are creating and if it is helpful for our goals or not. Secondly, by using this method less merge conflicts will happen.
+By using tools like Checkstyle we can maintain readability,good line length and method size violations.
+
+\subsection{Packages}
+This is hard to think about from the beginning for our context project since we are using GOAL as our starting point. We will maintain the structure of GOAL and try to fit in our implementation. All the source code and packages of GOAL can be found on their GitHub project.
+\pagebreak
+\section{Glossary}
+\printnoidxglossaries
+
+\end{document}          
