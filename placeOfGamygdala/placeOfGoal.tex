@@ -74,7 +74,7 @@ Modifications of the grammar \cite{GOAL grammar} repository:
 \subsection{Changing the structure of agent files}
 To implement some of our functions we will need to change the structure of the files that \gls{GOAL} uses to program agents (to add properties about the default emotional state of an agent for example). For this we will need to modify a few things. First we need to change the structure of an agent program from the package languageTools.program.agent. Then we will need to be able to parse the new text format into this new program format so we will need to modify the parser which can be found in languageTools.parser these use \gls{ANTLR} V4 (another tool for language recognition), we'll need to take a closer look at how this framework works.
 
-\subsection{Changing the sturcture of MAS files}
+\subsection{Changing the structure of MAS files}
 Changing the structure of MAS files is similar to the agent files except that the program class that we will need to modify resides in languageTools.program.agent.mas.
 
 \clearpage
