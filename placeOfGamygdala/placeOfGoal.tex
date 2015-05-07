@@ -1,0 +1,109 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{glossaries}
+\usepackage{hyperref}
+%opening
+
+\author{}
+\makeglossaries
+\newglossaryentry{Gamygdala}
+{
+	name=Gamygdala,
+	description={An emotional engine created to simulate emotions for virtual identities\cite{Gamygdala}.}
+}
+
+\newglossaryentry{GOAL}
+{
+	name=GOAL,
+	description={A programming language developped at TU Delft for creating Virtual Humans\cite{GOAL}.}
+}
+
+\newglossaryentry{packages}
+{
+	name=package,
+	description={a package it actually a map in which a part of your code is put. This is handy for keeping a good structure.}
+}
+
+\newglossaryentry{mentalstate}
+{
+	name=mentalstate,
+	description={The mentalstate of an agents is the combination of it's goalbase, beliefbase and in our case emotionbase. \cite{GOAL}}
+}
+
+\newglossaryentry{emotionbase}
+{
+	name=emotionbase,
+	description={An emotionbase of an agent is a database consisting of all the emotions of that agent.}
+}
+
+\newglossaryentry{beliefbase}
+{
+	name=beliefbase,
+	description={A beliefbase of an agent is a database containing predicates that the agent beliefs to be true. \cite{GOAL}}
+}
+	
+\newglossaryentry{goalbase}
+{
+	name=goalbase,
+	description={A goalbase of an agent is a database consisting of goals that that agent has. \cite{GOAL}}
+}
+	
+\newglossaryentry{ANTLR}
+{
+	name=ANTLR,
+	description={Another tool for language recognition, a framework used in GOAL to parse agent and MAS files. \cite{ANTLR}}
+}
+
+
+\begin{document}
+
+\title{The Place of Gamygdala in GOAL}
+\maketitle
+
+
+\section{GOAL - Runtime}
+Modifications of the runtime \cite{GOAL runtime} repository:
+\subsection{The emotionbase}
+To add emotions there will need to be a database in the \gls{mentalstate} of an agent similar to how there is a \gls{beliefbase} and \gls{goalbase}. Just like the \gls{beliefbase} there should also be the possibility to query this database. For this we will need to make modifications in the the goal.core.mentalstate package. Here we will need to add a new class representing this \gls{emotionbase}. We will also need to modify mentalModel to add this \gls{emotionbase} to the model.
+
+\subsection{Updating the emotions}
+Each cycle the emotions of the agents will need to be updated according to the new beliefs that the agents hold. For this we will need to modify the goal.core.runtime.service.agent.RunState class. This class has the methods that are used to evaluate a cycle for a specific agent. We will need to modify this class so that \gls{Gamygdala} is notified of beliefs that will have an effect on the emotions of the agent. Here we will also need to make a decision about the \gls{emotionbase}, we could either add methods here to update the \gls{emotionbase} so that it contains all the emotions of the agents or we could use \gls{emotionbase} as an interface to call functions of \gls{Gamygdala} when we want information about the current emotional state.
+
+\section{GOAL - Grammar}
+Modifications of the grammar \cite{GOAL grammar} repository:
+\subsection{Changing the structure of agent files}
+To implement some of our functions we will need to change the structure of the files that \gls{GOAL} uses to program agents (to add properties about the default emotional state of an agent for example). For this we will need to modify a few things. First we need to change the structure of an agent program from the package languageTools.program.agent. Then we will need to be able to parse the new text format into this new program format so we will need to modify the parser which can be found in languageTools.parser these use \gls{ANTLR} V4 (another tool for language recognition), we'll need to take a closer look at how this framework works.
+
+\subsection{Changing the structure of MAS files}
+Changing the structure of MAS files is similar to the agent files except that the program class that we will need to modify resides in languageTools.program.agent.mas.
+
+\clearpage
+\printglossaries
+
+\begin{thebibliography}{9}
+	
+	\bibitem{GOAL}
+	GOAL programming language
+	\url{http://ii.tudelft.nl/trac/goal}
+	
+	\bibitem{Gamygdala}
+	Gamygdala emotion engine
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
+	
+	\bibitem{ANTLR}
+	ANTLR, another tool for language recognition
+	\url{http://www.antlr.org/}
+	
+	\bibitem{GOAL runtime}
+	Goalhub, runtime repository
+	\url{https://github.com/goalhub/runtime}
+	
+	\bibitem{GOAL grammar}
+	Goalhub, grammar repository
+	\url{https://github.com/goalhub/grammar}
+		
+	
+	
+\end{thebibliography}
+
+\end{document}
