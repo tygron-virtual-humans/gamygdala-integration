@@ -1,0 +1,163 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{glossaries}
+\usepackage{hyperref}
+\makeglossaries
+
+\newglossaryentry{Gamygdala}
+{
+	name=Gamygdala,
+	description={An emotional engine created to simulate emotions for virtual identities\cite{Gamygdala}.}
+}
+
+\newglossaryentry{GOAL}
+{
+	name=GOAL,
+	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}.}
+}
+
+\newglossaryentry{agent}
+{
+	name=agent,
+	description={an agent is a virtual identity that uses logical rules to derive the wanted actions and can percept events from the environment. It is AI.}
+}
+
+\newglossaryentry{MoSCoW}
+{
+	name=MoSCoW,
+	description={A method used to fill in requirements for a project based on difference in priority regarding the final goal of the project.\cite{MoSCoW}}
+}
+
+
+\title{Product Plan}
+\author{GROUP: Gamygdala-Integration:\\
+	B.L.L. Kreynen\\
+	M. Spanoghe\\
+	R.A.N. Starre\\
+	Yannick Verhoog\\
+	Joost Wooning\\
+	}
+
+
+
+
+\begin{document}
+% Title Page
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+\section{Introduction}
+This group will create an integration of the \gls{Gamygdala} engine in the programming language \gls{GOAL}. In this document we will discuss all the important things about the wanted specifications of our product.
+\section{Product}
+In this section you can find the specific tasks our product should fulfill.
+\subsection{High-level product backlog}
+By using the \gls{MoSCoW} method we can subdivide the high level specifications into the following.
+\subsubsection*{Must haves}
+\begin{itemize}
+	\item An \gls{agent} in goal must have an equivalent in Gamygdala.
+	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. 
+	\item It must be possible to define how good or bad a belief is for goals.
+	\item It must be possible to define relations between agents in GOAL.
+	\item It must be possible to have these relations also present in Gamygdala.
+	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
+	\item it must be able to setup initial emotion of an agent.
+\end{itemize}
+ 
+\subsubsection*{Should haves}
+
+\begin{itemize}
+	\item It should be possible to set the gain to a specific value.
+	\item It should be possible to set the decay to a specific function.
+	\item The  Gamygdala goals and its properties should be possible to change. This also includes the relations regarding beliefs and goals.
+	\item It should be possible to display the emotional states in the simple IDE for debugging.
+\end{itemize}
+
+
+\subsubsection*{Could haves}
+
+\begin{itemize}
+	\item It could be possible to set a custom decay function.
+	\item It could be possible to change relations during runtime.
+	
+	\item It could be possible for an agent to reason about other agents emotional bases.
+\end{itemize}
+
+\subsubsection*{Won't haves}
+\begin{itemize}
+	\item eclipse plug-in
+\end{itemize}
+
+\subsection{Road map}
+\begin{itemize}
+	\item week 1: seminars
+	\item week 2: understanding Gamygdala by testgame
+	\item week 3: setting up goal and research on both goal and Gamygdala.
+	\item week 4: agents in goal should get in Gamygdala their equivalent + goals. relations between agent/goals definition/
+	\item week 5:  Extra mental database for emotions of an agent. Retrieve emotions.
+	\item week 6: debug tool + updating relations (between believes/goals agents/agents) + setting gain/decay function
+	\item week 7: implementing ability to set custom decay function
+	\item week 8: used for tasks that are not finished
+	\item week 9: used for tasks that are not finished
+	\item week 10: presentations + finishing
+	
+\end{itemize}
+
+\section{Product backlog}
+In this section you can find an overview of the backlog and release plan.
+\subsection{User}
+We define a user as a programmer that wants to use GOAL to develop an AI identity. While doing this, he wants to involve emotions and develop his identity in such a way that he can use emotions to trigger actions, but also actions in the environment (via percepts) that change his emotions would be very handy for the user. The user has a good understanding of the programming language GOAL. He has a very small understanding of Gamygdala.
+\subsection{User stories of features}
+\begin{itemize}
+\item As a programmer I want to be able to define a relationship between beliefs and goals so that these effect the emotional state of the agent. It must be similar to define goals in GOAL.
+
+\item As a programmer I want to be able to define relations between different agents.
+
+\item As a programmer I want to be able to run my GOAL-agent and see the emotional state he is in.
+
+\item As a programmer I want to be able to query the emotional base in the same way as the believe base. This so that the agent can reason about it.
+\end{itemize}
+
+\subsection{User stories of know-how acquisition}
+\begin{itemize}
+\item I want to be able to get a better understanding of Gamygdala by reading through the documentation so that more complex things could be implemented.
+
+\item As a programmer I want to be able to get a better understanding of the integration of Gamygdala in GOAL by reading documentations or papers. This so that I can reason about it and create more complex solutions.
+\end{itemize}
+
+\subsection{Release plan}
+\subsubsection{Milestone 1 - week 6}
+For week six we need to have a working version of basic integration so that the other group creating the virtual human is able to use this and experiment. If we don't give them any version to work with, it will be too late for them to use the integration of the Gamygdala engine in GOAL. Minimal features are the features we planned until week 6.
+\subsubsection{MileStone2 - end}
+At the end we need to finish our product. The real minimal features are the must haves we have defined earlier. The bare minimum is thus that the features of milestone 1 work perfectly and are tested thoroughly.
+\pagebreak
+\section{Definition of Done}
+We consider something as done if:
+\begin{itemize}
+	\item test coverage of at least 75\%
+	\item documentation of new implemented things must be present
+	\item at least two other colleagues agreed on the implementation ans also consider it as done.
+\end{itemize}
+
+\clearpage
+\printglossaries
+
+
+\begin{thebibliography}{9}
+	
+	\bibitem{GOAL}
+	GOAL programming language
+	\url{http://ii.tudelft.nl/trac/goal}
+	
+	\bibitem{Gamygdala}
+	Gamygdala emotion engine
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
+	
+	\bibitem{MoSCoW}
+	MoScoW method
+	\url{http://en.wikipedia.org/wiki/MoSCoW_method) }
+	
+	
+\end{thebibliography}
+
+\end{document}     
