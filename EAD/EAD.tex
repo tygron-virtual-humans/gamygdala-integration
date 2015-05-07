@@ -1,0 +1,99 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{glossaries}
+\usepackage{hyperref}
+
+
+\makeglossaries
+
+\newglossaryentry{Gamygdala}
+{
+	name=Gamygdala,
+	description={An emotional engine created to simulate emotions for virtual identities\cite{Gamygdala}.}
+}
+
+\newglossaryentry{GOAL}
+{
+	name=GOAL,
+	description={A programming language developped at TU Delft for creating Virtual Humans\cite{GOAL}.}
+}
+
+\newglossaryentry{virtual human}
+{
+	name=Virtual Human,
+	description={A virtual human is an agent that uses logical rules to derive the wanted actions and can percept events from the environment. It is AI.}
+}
+
+\newglossaryentry{JUnit}
+{
+	name=JUnit,
+	description={This is a framework to build testsuites in Java.}
+}
+
+\newglossaryentry{master}
+{
+	name=Master,
+	description={The master branch of a repository is the main of repository. Your main stable version.}
+}
+
+\newglossaryentry{packages}
+{
+	name=package,
+	description={a package it actually a map in which a part of your code is put. This is handy for keeping a good structure.}
+}
+
+
+
+% Title Page
+\title{Emergent Architecture Design}
+\author{GROUP: GOAL-Integration}
+
+
+\begin{document}
+
+
+\section{Introduction}
+This group will create an integration of the \gls{Gamygdala} engine in the programming language \gls{GOAL}.
+\subsection{Goals}
+In this project we have multiple goals. Besides the goals between the different groups that can be found in the product vision document we also have goals that are group specific. We think that it is very important for us that we have good code quality. Also functionality is important.By functionality we mean that focussing on
+
+\subsubsection{Source code quality}
+We think that it is important to have readible code that is well written with the correct design patterns. Other software engineering principles we have learned so far should also be used appropriately and correctly. For example: Method sizes.
+
+\subsubsection{Functionality}
+By testing in different ways we want our code to be very functional. Since our job is to create an integration, functionality is the most important goal for our team.
+
+
+\section{Software Architecture}
+When a user is creating a \gls{virtual human} in the programming language GOAL, they should be able to use the Gamygdala engine in an easy and understandable way.
+\subsection{Programming languages}
+We will use Java. This is because GOAL is written in Java.
+Gamygdala is written in Javascript, but we will use a port to java so that we don't need to work with Javascript.Mostly we will be working in the source code of GOAL and find a way to build an integration of the engine in GOAL itself.
+\subsection{Tests}
+Testing of the software will be done mostly in the \gls{JUnit} framework since we are writing Java code. The port between javascript and java also needs to be tested thoroughly, but this won't be done by this group.We aim for a high test coverage. Also we will have continious integration during our project which means that everytime our project gets built, we get a report of tests but also source code quality discussed in the next section.
+
+\subsection{Code Quality}
+During this project our group wil use the pull-request method to develop code. This wil make sure that the quality is maintained since nothing can be merged to the \gls{master} without permission of atleast two other students. It works like this. You create your own branch of the master and then you start coding. When you are finished you push your code to the branch (which is a mirror of the master except for your new implementations). After this you make a request of your branch being pulled to the master (hence pull requests). Then your colleague students can see this on GitHub and comment,reply and approve or dissaprove. When atleast 2 other student finally agree after you made adjustments they can allow you to merge your branch with the master. It helps our group in 2 ways. First of all it makes sure we do code reviews and think about what other are creating and if it is helpful for our goals or not. Secondly, by using this method less merge conflicts will happen.
+By using tools like Checkstyle we can maintain readability,good line length and method size violations.
+
+\subsection{Packages}
+This is hard to think about from the beginning for our context project since we are using GOAL as our starting point. We will maintain the structure of GOAL and try to fit in our implementation. All the source code and \gls{packages} of GOAL can be found on their GitHub project.
+
+\clearpage
+\printglossaries
+
+
+\begin{thebibliography}{9}
+	
+	\bibitem{GOAL}
+	GOAL programming language
+	\url{http://ii.tudelft.nl/trac/goal}
+	
+	\bibitem{Gamygdala}
+	Gamygdala emotion engine
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
+	
+	
+\end{thebibliography}
+
+\end{document}          
