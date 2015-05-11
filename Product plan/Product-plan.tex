@@ -99,28 +99,28 @@ The first week we mainly have seminars about the project and how things will go.
 During this week we will implement 2 very small and easy games in Javascript. The games will work with Gamygdala. We create this games so that each member can get a better understanding of Gamygdala and how it reasons.
 
 \subsubsection*{Week 3}
-This week the focus will be on setting up the repositories. Furthermore there will be a lot of research on where and how to integrate Gamygdala. Also the first steps towards the product will be implemented. The Gamygdala port will be instantiated in GOAL and a parser for the emotional configuration will be completed. This research is handy so that we do not implement wherever we can but really know what to do and where.1,2
+This week the focus will be on setting up the repositories. Furthermore there will be a lot of research on where and how to integrate Gamygdala. Also the first steps towards the product will be implemented. The Gamygdala port will be instantiated in GOAL and a parser for the emotional configuration will be completed. This research is handy so that we do not implement wherever we can but really know what to do and where.(1,2)
 
 \subsubsection*{Week 4}
-This week the focus will be on continuing the implementation of the instantiation and getting the parsed configuration files working in Gamygdala. Furthermore this week goals in GOAL will be created in Gamygdala as well. All of this needs a lot of testing. We aim for this planning so that we have a working version of the Gamygdala instantiation as soon as possible to that we can test it very thoroughly both this week and the next weeks.1,2
+This week the focus will be on continuing the implementation of the instantiation and getting the parsed configuration files working in Gamygdala. Furthermore this week goals in GOAL will be created in Gamygdala as well. All of this needs a lot of testing. We aim for this planning so that we have a working version of the Gamygdala instantiation as soon as possible to that we can test it very thoroughly both this week and the next weeks.(1,2,6)
 
 \subsubsection*{Week 5}
-This week the focus will be on updating the Gaygdala database by appraising beliefs of the agents. This means that when agents get percepts these percepts should be checked against the rules in the Gamygdala engine. They could change the emotion of an agent. We will do this before we try to retrieve the emotional database because we think this is more important and this should be tested early. During this week we will also create the emotional database of an agent by getting its information form Gamygdala.1,2
+This week the focus will be on updating the Gaygdala database by appraising beliefs of the agents. This means that when agents get percepts these percepts should be checked against the rules in the Gamygdala engine. They could change the emotion of an agent. We will do this before we try to retrieve the emotional database because we think this is more important and this should be tested early. During this week we will also create the emotional database of an agent by getting its information form Gamygdala.(1,2)
 
 
-\subsubsection*{Week6}
-This week the focus will be on retrieving the emotional state of an agent by getting information out of the emotional database. This needs to be done so that the other group, and other users that might use our product can get the emotional state of their agents. If they can do this, they can thus implement logical rules based on these emotions. Also the seeting of gain and decay functions will be finished and tested during this week. We will work on it earlier but by this week it should also be done. This week our first release should be ready to present the other group with a working version of the Gamygdala integration.
+\subsubsection*{Week 6}
+This week the focus will be on retrieving the emotional state of an agent by getting information out of the emotional database. This needs to be done so that the other group, and other users that might use our product can get the emotional state of their agents. If they can do this, they can thus implement logical rules based on these emotions. Also the setting of gain and decay functions will be finished and tested during this week. We will work on it earlier but by this week it should also be done. This week our first release should be ready to present the other group with a working version of the Gamygdala integration.(4)
 
 
 \subsubsection*{Week 7}
 This week we will mainly focus on implemented an easier way to debug with emotions. This includes creating a debug tool so that programmers can check what is going wrong and what is happening with the emotions at a given moment in time. We will try to extend the Simple IDE \cite{SimpleIDE} so that it includes the emotional database.
-After we released the first version we  aim for the ease of use of the implemented specifications. Therefore we will create the debug tool for the other group.
+After we released the first version we  aim for the ease of use of the implemented specifications. Therefore we will create the debug tool for the other group.(3)
 
 \subsubsection*{Week 8}
-This week we will focus on updating relations on the fly. This can be handy for programmers. Also we have time left to fix tasks that are not finished but are very important. 
+This week we will focus on updating relations on the fly. This can be handy for programmers. Also we have time left to fix tasks that are not finished but are very important. (7)
 
 \subsubsection*{Week 9}
-This week we will also fix, test and finish incomplete tasks. Also this week we will finish the extra documentation on how to use the integration. It will be worked on continuously but this week these documents will be completed.
+This week we will also fix, test and finish incomplete tasks. Also this week we will finish the extra documentation on how to use the integration. It will be worked on continuously but this week these documents will be completed.(8,9)
 
 \subsubsection*{Week 10}
 During this week the presentations will be made and all things related to it will be completed.
@@ -142,28 +142,36 @@ As a programmer if I define a relation between to agents in the configuration, w
 
 \subsubsection*{5} As a programmer if I launch an agent with the Simple IDE \cite{SimpleIDE} when I press the pause button for debugging, the emotional database is also paused and possible to inspect.
 
+\subsubsection*{6} As a programmer I want to set a gain and a decay function and when this configuration is run, these should also be set in Gamygdala.
+
+\subsubsection*{7} As a programmer I want to alter relations after their definitions for both testing purposes and logical rules.
+
 
 
 \subsection{User stories of know-how acquisition}
-\subsubsection*{1}
+\subsubsection*{8}
 I want to be able to get a better understanding of Gamygdala by reading through the documentation so that more complex things could be implemented.
 
-\subsubsection*{2}As a programmer I want to be able to get a better understanding of the integration of Gamygdala in GOAL by reading documentations or papers. This so that I can reason about it and create 
+\subsubsection*{9}As a programmer I want to be able to get a better understanding of the integration of Gamygdala in GOAL by reading documentations or papers. This so that I can reason about it and create 
 
 \subsection{Release plan}
 \subsubsection{Milestone 1 - week 6}
-For week six we need to have a working version of basic integration so that the other group creating the virtual human is able to use this and experiment. If we don't give them any version to work with, it will be too late for them to use the integration of the Gamygdala engine in GOAL. Minimal features are the features we planned until week 6.
-\subsubsection{MileStone2 - end}
-At the end we need to finish our product. The real minimal features are the must haves we have defined earlier. The bare minimum is thus that the features of milestone 1 work perfectly and are tested thoroughly.
+For week six we need to have a working version of basic integration so that the other group creating the virtual human is able to use this and experiment. If we don't give them any version to work with, it will be too late for them to use the integration of the Gamygdala engine in GOAL. Minimal features are the features we planned until week 6. For this we will implement user stories 1,2,4 and 6
+\subsubsection{Milestone2 - end}
+At the end we need to finish our product. The real minimal features are the must haves we have defined earlier. The bare minimum is thus that the features of milestone 1 work perfectly and are tested thoroughly.For this we will implement user stories 3,5,7,8 and 9.
 \pagebreak
 \section{Definition of Done}
-We consider something as done if:
+We consider a coding part as done if:
 \begin{itemize}
 	\item test coverage of at least 75\%
 	\item documentation of new implemented things must be present
-	\item at least two other colleagues agreed on the implementation ans also consider it as done.
+	\item at least two other colleagues agreed on the implementation and also consider it as done.
 \end{itemize}
-
+We consider a sprint done when we delivered a demo of what we have at the end of the sprint week. The sprint reflection needs to be filled in and also the estimation of the efforts has to be present. At the final stage of a sprint and with regard to the sprint reflection, the next sprint plan needs to be filled in. After this is done, the sprint for that week is completed.\\
+\\
+We consider a release done when it fulfills all the coding specifications mentioned above and when it successfully agrees with the user stories of that release.\\
+\\
+We consider the project as done when both releases are finished and we have at least the MUST-have specifications implemented. Of course for the project the coding specifications mentioned above need to be complete.
 \clearpage
 \printglossaries
 
