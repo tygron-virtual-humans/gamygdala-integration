@@ -48,8 +48,7 @@
 \tableofcontents
 \pagebreak
 \section{Introduction}
-For our context project we work in a large group that is subdivided into different smaller group. In total we have 4 groups of 5 students that work together. The common goal is to create a virtual human for the serious game called Tygron. Not only we will create a virtual human that plays this game, we will also implement its emotions. The virtual human will be created in GOAL. Our specific task is to provide the group that will create the agent with a emotional engine. The emotional engine we will use is is called Gamygdala. It is not our task to implement this, since it is already present, but it is our job to integrate it in GOAL in a way that programmers, like the other groups, can make use of this when creating virtual humans.
-Specifically this group will create an integration of the \gls{Gamygdala} engine in the programming language \gls{GOAL}.\\
+For our context project we work in a large group that is subdivided into different smaller group. In total we have 4 groups of 5 students that work together. Together the whole group will make a proof of concept by creating a game in the Tygron engine,creating an interface between the Tygron engine and \gls{GOAL} and creating both a plug-in and an integration of the \gls{Gamygdala} emotional engine in GOAL.The specific task of our subgroup is to provide the group that will create an agent with an integration of Gamygdala in GOAL. It is not our task to implement the engine itself, since it is already present, but it is our job to integrate it in GOAL in a way that programmers, like the other groups, can make use of this when creating virtual humans.
 \\
 First of all this document will describe the product's requirements based on the MoSCoW method. More information on this method is found in the glossary. Secondly, a road map is specified where you have an overview of the sprint weeks and the tasks that will be worked on each week. Furthermore a list of user stories is given. These are numbered so that in the road map and in the release plan it is very clear which tasks and user stories are linked together. Finally there is a section on the Definition of Done. This involves all the specific agreements on when a certain task is completed. 
 \section{Product}
@@ -58,13 +57,13 @@ In this section you can find the specific tasks our product should fulfill.
 By using the \gls{MoSCoW} method we can subdivide the high level specifications into the following. The subsections decrease in importance or priority. This means that for example the MUST-haves are way more important to implement than the COULD-haves. This method is very handy and more information can be found in the glossary or references.
 \subsubsection*{Must haves}
 \begin{itemize}
-	\item An \gls{agent} in goal must have an equivalent in Gamygdala.
-	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. 
-	\item It must be possible to define how good or bad a belief is for goals.
+	\item An \gls{agent} in GOAL must have an equivalent in Gamygdala.
+	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. This means that if you define a goal for an agent in GOAL that the Gamygdala engine must also know of this. New goals must be communicated to Gamygdala.
+	\item It must be possible to define how good or bad a belief is for certain goals.
 	\item It must be possible to define relations between agents in GOAL.
-	\item It must be possible to have these relations also present in Gamygdala.
+	\item It must be possible to have these relations also present in Gamygdala. Again, it must be the case that when a relation is created in GOAL, the Gamygdala engine knows about this relation. Otherwise no emotions between two agents can be calculated.
 	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
-	\item it must be able to setup initial emotion of an agent.
+	\item it must be able to setup an initial emotion of an agent.
 \end{itemize}
  
 \subsubsection*{Should haves}
