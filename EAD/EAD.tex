@@ -67,7 +67,7 @@ In this project we have multiple goals. Besides the goals between the different 
 We think that it is important to have readable code that is well written with the correct design patterns. Other software engineering principles we have learned so far should also be used appropriately and correctly. For example: Method sizes.
 
 \subsubsection{Functionality}
-By testing in different ways we want our code to have all the necessary features working well. Since our job is to create an integration, functionality is the most important goal for our team. It should be noted though that this is a proof of concept, so while we will focus on making sure the other groups receive the necessary features some of them might be implemented in a less nice way in order to be able to implement them quickly. An example of this is the emotion configuration file. Instead of adding the definitions of this file to the agent and MAS files we decided to use a separate file since this meant we could more easily create our own parser for it since adapting the files of GOAL would require learning a lot about \gls{ANTLR}.
+By testing in different ways we want our code to have all the necessary features working well. Since our job is to create an integration, functionality is the most important goal for our team. It should be noted though that this is a proof of concept, so while we will focus on making sure the other groups receive the necessary features some of them might be implemented in a less nice way in order to be able to implement them quickly. An example of this is the emotion configuration file. Instead of adding the definitions of this file to the agent and MAS files we decided to use a separate file since this means we can more easily create our own parser for it since adapting the files of GOAL would require learning a lot about \gls{ANTLR}.
 
 
 \section{Software Architecture}
@@ -86,7 +86,7 @@ By using tools like Checkstyle we can maintain readability,good line length and 
 This is hard to think about from the beginning for our context project since we are using GOAL as our starting point. We will maintain the structure of GOAL and try to fit in our implementation. All the source code and \gls{packages} of GOAL can be found on their GitHub project.
 \\
 \\
-Throughout the project we will keep updating this list when we discover new places we need to make adjustments in. So far we've discovered that we will need to modify the following packages (or already have made adjustments):
+Throughout the project we will keep updating this list when we discover new places we need to make adjustments in. So far we have discovered that we will need to modify the following packages (or already have made adjustments):
 
 \subsubsection{Runtime}
 The packages from the runtime repository: \\ \\
