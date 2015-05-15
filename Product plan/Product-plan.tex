@@ -48,7 +48,7 @@
 \tableofcontents
 \pagebreak
 \section{Introduction}
-For our context project we work in a large group that is subdivided into different smaller group. In total we have 4 groups of 5 students that work together. Together the whole group will make a proof of concept by creating a game in the Tygron engine\cite{Tygron},creating an interface between the Tygron engine and \gls{GOAL} and creating both a plug-in and an integration of the \gls{Gamygdala} emotional engine in GOAL.The specific task of our subgroup is to provide the group that will create an agent with an integration of Gamygdala. It is not our task to implement the engine itself, since it is already present, but it is our job to integrate it in GOAL in a way that programmers, like the other groups, can make use of this when creating virtual humans.
+For our context project we work in a large group that is subdivided into different smaller groups. In total we have 4 groups of 5 students that work together. Together the whole group will make a proof of concept by creating a game in the Tygron engine\cite{Tygron},creating an interface between the Tygron engine and \gls{GOAL} and creating both a plug-in and an integration of the \gls{Gamygdala} emotional engine in GOAL.The specific task of our subgroup is to provide the group that will create an agent with an integration of Gamygdala. It is not our task to implement the engine itself, since it is already present, but it is our job to integrate it in GOAL in a way that programmers, like the other groups, can make use of this when creating virtual humans.
 \\
 First of all this document will describe the product's requirements based on the MoSCoW method. More information on this method is found in the glossary. Secondly, a road map is specified where you have an overview of the sprint weeks and the tasks that will be worked on each week. Furthermore a list of user stories is given. These are numbered so that in the road map and in the release plan it is very clear which tasks and user stories are linked together. Finally there is a section on the Definition of Done. This involves all the specific agreements on when a certain task is completed. 
 \section{Product}
@@ -63,7 +63,7 @@ By using the \gls{MoSCoW} method we can subdivide the high level specifications 
 	\item It must be possible to define relations between agents in GOAL.
 	\item It must be possible to have these relations also present in Gamygdala. Again, it must be the case that when a relation is created in GOAL, the Gamygdala engine knows about this relation. Otherwise no emotions between two agents can be calculated.
 	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
-	\item It must be able to setup an initial emotion of an agent.
+	\item It must be possible to setup an initial emotion of an agent.
 \end{itemize}
  
 \subsubsection*{Should haves}
@@ -96,16 +96,16 @@ In this section we will list for each week what we will be doing. At the end of 
 The first week we mainly have seminars about the project and how things will go. In this week we will setup the group and make sure everybody gets ready to work on the project. Setting up communication between group members for example.
 
 \subsubsection*{Week 2}
-During this week we will implement 2 very small and easy games in Javascript. The games will work with Gamygdala. We create this games so that each member can get a better understanding of Gamygdala and how it reasons.
+During this week we will implement 2 very small and easy games in Javascript. The games will work with Gamygdala. We create these games so that each member can get a better understanding of Gamygdala and how it reasons.
 
 \subsubsection*{Week 3}
-This week the focus will be on setting up the repositories. Furthermore there will be a lot of research on where and how to integrate Gamygdala. Also the first steps towards the product will be implemented. The Gamygdala port will be instantiated in GOAL and a parser for the emotional configuration will be completed. This research is handy so that we do not implement wherever we can but really know what to do and where.(1,2)
+This week the focus will be on setting up the repositories. Furthermore there will be a lot of research on where and how to integrate Gamygdala. Also the first steps towards the product will be implemented. The Gamygdala port will be instantiated in GOAL and a parser for the emotional configuration will be completed. This research is useful so that we implement the functions of Gamygdala in the correct places to maintain good code quality.(1,2)
 
 \subsubsection*{Week 4}
 This week the focus will be on continuing the implementation of the instantiation and getting the parsed configuration files working in Gamygdala. Furthermore this week goals in GOAL will be created in Gamygdala as well. All of this needs a lot of testing. We aim for this planning so that we have a working version of the Gamygdala instantiation as soon as possible to that we can test it very thoroughly both this week and the next weeks.(1,2,6)
 
 \subsubsection*{Week 5}
-This week the focus will be on updating the Gaygdala database by appraising beliefs of the agents. This means that when agents get percepts these percepts should be checked against the rules in the Gamygdala engine. They could change the emotion of an agent. We will do this before we try to retrieve the emotional database because we think this is more important and this should be tested early. During this week we will also create the emotional database of an agent by getting its information form Gamygdala.(1,2)
+This week the focus will be on updating the Gamygdala database by appraising beliefs of the agents. This means that when agents get percepts these percepts should be checked against the rules in the Gamygdala engine. They could change the emotion of an agent. We will do this before we try to retrieve the emotional database because we think this is more important and this should be tested early. During this week we will also create the emotional database of an agent by getting its information form Gamygdala.(1,2)
 
 
 \subsubsection*{Week 6}
@@ -113,7 +113,7 @@ This week the focus will be on retrieving the emotional state of an agent by get
 
 
 \subsubsection*{Week 7}
-This week we will mainly focus on implemented an easier way to debug with emotions. This includes creating a debug tool so that programmers can check what is going wrong and what is happening with the emotions at a given moment in time. We will try to extend the Simple IDE \cite{SimpleIDE} so that it includes the emotional database.
+This week we will mainly focus on implementing an easier way to debug with emotions. This includes creating a debug tool so that programmers can check what is going wrong and what is happening with the emotions at a given moment in time. We will try to extend the Simple IDE \cite{SimpleIDE} so that it includes the emotional database.
 After we released the first version we  aim for the ease of use of the implemented specifications. Therefore we will create the debug tool for the other group.(3)
 
 \subsubsection*{Week 8}
@@ -131,20 +131,20 @@ In this section you can find an overview of the backlog and release plan.
 We define a user as a programmer that wants to use GOAL to develop an AI identity. While doing this, he wants to involve emotions and develop his identity in such a way that he can use emotions to trigger actions, but also actions in the environment (via percepts) that change his emotions would be very handy for the user. The user has a good understanding of the programming language GOAL. He has a very small understanding of Gamygdala.
 \subsection{User stories of features}
 \subsubsection*{1}
-As a programmer I define a relation between a belief and a goal in the emotion configuration. When I run the agent, each cycle the emotions is updated according to the defined relations. 
+As a programmer I define a relation between a belief and a goal in the emotion configuration. When I run the agent, each cycle the emotions are updated according to the defined relations. 
 
 \subsubsection*{2}
-As a programmer if I define a relation between to agents in the configuration, when I run this configuration, Gamygdala is aware of this relation and updates the emotion of both agents accordingly.
+As a programmer if I define a relation between two agents in the configuration, when I run this configuration, Gamygdala is aware of this relation and updates the emotion of both agents accordingly.
 
-\subsubsection*{3}As a programmer when I run an emotional agent with the Simple IDE\cite{SimpleIDE} I can to inspect its emotional database.
+\subsubsection*{3}As a programmer when I run an emotional agent with the Simple IDE\cite{SimpleIDE} I am able to inspect its emotional database.
 
 \subsubsection*{4}As a programmer when I create an agent, I can retrieve information from its emotions (emotional database) and use this information to implement logical rules.
 
-\subsubsection*{5} As a programmer if I launch an agent with the Simple IDE \cite{SimpleIDE} when I press the pause button for debugging, the emotional database is also paused and possible to inspect.
+\subsubsection*{5} As a programmer if I launch an agent with the Simple IDE \cite{SimpleIDE} when I press the pause button for debugging, the emotional database is also paused and it's possible to inspect this database through the Simple IDE\cite{SimpleIDE}.
 
 \subsubsection*{6} As a programmer I want to set a gain and a decay function and when this configuration is run, these should also be set in Gamygdala.
 
-\subsubsection*{7} As a programmer I want to alter relations after their definitions for both testing purposes and logical rules.
+\subsubsection*{7} As a programmer I want to alter relations after their definitions for both testing purposes and logical rules. With this we mean that after you have defined your relation statically in the emotion configuration it is possible to change it when you want during runtime.
 
 
 
