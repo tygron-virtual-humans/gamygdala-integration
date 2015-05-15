@@ -1,0 +1,52 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc} % Unicode support (Umlauts etc.)
+\usepackage{hyperref} % Add a link to your document
+\usepackage{graphicx} % Add pictures to your document
+\usepackage{listings} % Source code formatting and highlighting
+\usepackage[top=75px, bottom=75px, left=85px, right=85px]{geometry} % Change page borders
+\usepackage{color}
+%footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[R]{Context Project: Gamygdala-Integration}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\title{Context Project: Virtual Human}
+\subtitle{Group: Gamygdala-Integration}
+\date{\today{}}
+
+\author{
+    \begin{tabular}{l r}
+      B.L.L. Kreynen\\
+      M. Spanoghe\\
+      R.A.N. Starre\\
+      Yannick Verhoog\\
+      Joost Wooning\\
+    \end{tabular}
+}
+
+\maketitle \thispagestyle{empty} \pagebreak
+
+\section{Sprint reflection}
+
+\subsection{Main Problems Encountered}
+
+\emph{Problem 1}. We heard on Wednesday that it was preffered that we make a demo by Monday that was a bit more concrete already than what we had planned.\\
+\emph{Reaction}. We changed what we were planning on doing in the last part of this sprint and managed to make a basic demo that shows off Gamygdala in GOAL with default settings.\\
+\\
+\emph{Problem 2}. We have not managed to get TravisCI working together with Maven on one of the repositories.\\
+\emph{Reaction}. We will keep looking at this issue in the coming week.\\
+\\
+\emph{Problem 3}. When making this more concrete demo we stumbled quickly on a bug in the Gamygdala port made by another group.\\
+\emph{Reaction}. We looked at their repository and noticed that it seemed like they did not test the port very well, next week we will discuss with the group that made the port how this can be solved.\\
+\\
+
+
+\subsection{Adjustments for next sprint plan}
+We should think more about concrete things we can demo to the customer, so that hopefully we won't have to change our sprint in the middle of the sprint again. Furthermore we should not underestimate the effort required to set up tools and plug-ins correctly.
+\end{document}
