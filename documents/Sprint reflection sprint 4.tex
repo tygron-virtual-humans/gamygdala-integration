@@ -1,0 +1,51 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc} % Unicode support (Umlauts etc.)
+\usepackage{hyperref} % Add a link to your document
+\usepackage{graphicx} % Add pictures to your document
+\usepackage{listings} % Source code formatting and highlighting
+\usepackage[top=75px, bottom=75px, left=85px, right=85px]{geometry} % Change page borders
+\usepackage{color}
+%footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot[R]{Context Project: Gamygdala-Integration}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\title{Context Project: Virtual Human}
+\subtitle{Group: Gamygdala-Integration}
+\date{\today{}}
+
+\author{
+    \begin{tabular}{l r}
+      B.L.L. Kreynen\\
+      M. Spanoghe\\
+      R.A.N. Starre\\
+      Yannick Verhoog\\
+      Joost Wooning\\
+    \end{tabular}
+}
+
+\maketitle \thispagestyle{empty} \pagebreak
+
+\section{Sprint reflection sprint 4}
+
+\subsection{Main Problems Encountered}
+
+\emph{Problem 1}. We received feedback on our use of issues. We do not use enough issues and we don't link them to pull request.\\
+\emph{Reaction}. We will make issues more frequently and try not to implement anything before an issue addresses this problem.\\
+\\
+\emph{Problem 2}. We merged the master into a certain branch a few times and the SA's said that this was not a good habit. .\\
+\emph{Reaction}. When our branch is behind with the master, we will use the re-base method instead of merging the master into a branch.\\
+\\
+\emph{Problem 3}. We make pull requests that are too large. The SAs want to be able to review our work in an easier and less heavy workload by looking at small difs, instead of pull request with 30+ files changed.\\
+\emph{Reaction}. We will try to make pull requests more frequently and thus having smaller difs. Also this will make sure less merge conflicts will be present\\
+\\
+
+\subsection{Adjustments for next sprint plan}
+As the reactions mention we will use more issues. We did not encounter any urgent issues nor in our work nor in our group. We will try to improve our use of the Github issues, the linking to pull requests and try to create smaller pull requests to spread the workload of the reviews.
+\end{document}
