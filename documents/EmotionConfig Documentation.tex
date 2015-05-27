@@ -61,8 +61,10 @@ You can write any upper/lower case variant of true/false. (True,False,true,false
 Writing anything wrong in the syntax will throw an error instead of setting it on false by default.\\
 Example line in text file:\\
 DEFAULT ISINCREMENTAL, true\\
-
 \pagebreak
+\subsection*{"WHITELIST": String, ON: String}
+This specifies that a white list is used for specifying goals. With this we mean that all the goals that you specify will be used with the specified values, but all other goals will not be used. This is when white list is set on. When white list is off, then the specified goals will be used with their specified values, but other goals, not specified will be using the default settings.There is not OFF setting. If you do not want  white listed goals, simply don't mention is.
+
 \section*{default values}
 When you don't specify these commands in the EmotionConfig default values will be used. Here are the settings that will be present if you don't specify anything.\\
 DEFAULT GOAL UTILITY = 1;\\
