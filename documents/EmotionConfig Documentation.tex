@@ -73,6 +73,16 @@ DEFAULT ACHIEVED CONGRUENCE = 0.5;\\
 DEFAULT BELIEF LIKELIHOOD = 1;\\
 DEFAULT ISINCREMENTAL = false;\\
 
+\section*{Goal definition}
+\subsection*{"GOAL" : String, Agent : String, Goal : String, Utility : double}
+This definition defines the properties of a goal. Agent is the agent for which this specification is true (this is not yet implemented the idea is that eventually you could define different properties for different agents but for the same goal. At the moment it can be filled in with anything and the specification will hold for all agents.). Goal is the name of the goal, this should the same name as the goal is given in GOAL including the arity. Defining a goal like this also adds it to the whitelist if this feature is being used.
+\subsection*{"GOAL" : String, Agent : String, Goal : String}
+This Goal definition can be used to add goals to the whitelist without setting a specific utility (between [-1, 1]), for these goals the default utility will be used. The Agent parameter again specifies which agent this goal should be whitelisted for (again this is not yet implemented).
+
+\section*{Relation definition}
+\subsection*{"REL" : String, SourceAgent : String, DestinationAgent : String, Value : double}
+This defines a relation between two agents. The relation is a relation that the SourceAgent has with the DestinationAgent, the value is how good or bad this relation is (between [-1,1]). The relation is one sided so DestinationAgent does not have the same relation with SourceAgent unless you add it separately. Both SourceAgent and DestinationAgents should be the names that the agents are given in GOAL.
+
 
 
 \end{document}
