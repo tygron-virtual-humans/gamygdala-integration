@@ -1,0 +1,108 @@
+init module{
+	knowledge{
+		% Assume there is enough room to put all blocks on the table.
+		% This is actually only true for up to 13 blocks in the Tower Environment.
+		clear(table) .
+       	clear(X) :- block(X), not( on(_, X) ), not( holding(X) ).
+		
+		above(X, Y) :- on(X, Y).
+		above(X, Y) :- on(X, Z), above(Z, Y).
+		
+		tower([X]) :- on(X, table).
+		tower([X, Y | T]) :- on(X, Y), tower([Y | T]).
+		
+		largestTower(X) :- findall(A, tower(A), L), longest(L, X).
+		
+		longest([L], L) :- !.
+		longest([H|T], H) :- length(H, N), longest(T, X), length(X, M), N > M,!.
+		longest([H|T], X) :- longest(T, X),!.
+	}
+	actionspec{
+		% A block X can be pickep up if it is clear and the gripper is not holding a block already.
+		% Picking up a block takes time because the gripper must be moved to the block first (pickup
+		% is a durative action). For this reason, the postcondition is empty (true) instead of holding(X).
+		% That the gripper is holding a block will be derived from the percepts which the agent receives.
+		pickup(X) {
+		   pre{ clear(X), not( holding(_) ) } 
+		   post{ true }
+		}
+		
+		% A block X can be put down on a block Y if the gripper is holding X and block Y is clear.
+		% Putting down a block takes time because the gripper must be moved to block Y.
+		putdown(X, Y) {
+			pre { holding(X), clear(Y) }
+			post { true }
+		}
+		
+		% The 'nil' action can always be performed. It moves the gripper back to its 'home position', i.e.
+		% to the left upper corner. Moving the gripper to its home position takes time. The postcondition
+		% is empty for this reason but also because we do not (and cannot) keep track of the gripper's position.
+		nil {
+			pre { true }
+			post { true }
+		}
+	}
+}
+	
+main module{
+	program [order=linear]{
+		% pick up a block if you can and want to.
+		if a-goal( holding(X) ), bel( clear(X), not(holding(_)) ) then pickup(X).
+		
+		% put a block you're holding down, ideally where you want it, but otherwise put it on the table.
+		if a-goal( on(X, Y) ), bel( holding(X), clear(Y) ) then putdown(X, Y).
+
+		% otherwise, there is nothing to do, so we can move the gripper to the top left corner.
+		% no need to check whether we're holding a block because of linear order.
+		if true then nil.
+	}
+}
+
+event module{
+	program{
+		% first, process percepts from Tower World environment.
+		% rules below assume full observability.
+		forall bel( block(X), not( percept( block(X) ) ) ) do delete( block(X) ).
+		forall bel( percept( block(X) ), not( block(X) ) ) do insert( block(X) ).
+		
+		forall bel( holding(X), not( percept( holding(X) ) ) ) do delete( holding(X) ).
+		forall bel( percept( holding(X) ), not( holding(X) ) ) do insert( holding(X) ).
+		
+		forall bel( on(X, Y), not( percept( on(X,Y))) ) do delete( on(X, Y) ).
+		forall bel( percept( on(X, Y) ), not( on(X, Y) ) ) do insert( on(X, Y) ).
+		
+		% check for reasons to drop a holding goal.
+		if goal( holding(X) ) then {
+			% cannot pick up block X because it's not clear.
+			if bel( not( clear(X) ) ) then drop( holding(X) ).
+			% cannot pick up block X because now holding other block!
+			if bel( holding(_) ) then drop( holding(X) ).
+			% block X is already in position, don't touch it.
+			if bel( largestTower(L), member(X, L) ) then drop( holding(X) ).
+		}
+		
+		% check for reasons to drop an on goal.
+		if goal( on(X, Y) ) then {
+			% cannot put a block because not holding block.
+			if bel( not(holding(X)) ) then drop( on(X, Y) ).
+			% cannot put a block on Y because it's not clear.
+			if bel( not(clear(Y)) ) then drop( on(X, Y) ).
+			% it is a better goal to put X on a larger tower
+			if bel( largestTower(L), not(member(Y, L)) ) then drop( on(X, Y) ).
+		}
+		
+		% adopt new goal only after cleaning up.
+		if not(goal( holding(X) )), not(goal( on(Y, Z) )) then adoptgoal.
+	}
+}
+
+module adoptgoal{
+	% order=linear: adopt at most one goal to hold a block at any one time.
+	% the gripper is limited and cannot hold more than one block.
+	program{
+		% grab a block for a tower which is not the largest
+		if bel( not(holding(_)), largestTower(L), block(X), not(member(X, L)) ) then adopt( holding(X) ).
+		% if holding a block, put it on the largest tower
+		if bel( holding(X), largestTower([H | T]) ) then adopt( on(X, H) ).
+	}
+}
