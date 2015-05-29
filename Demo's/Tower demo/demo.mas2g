@@ -1,0 +1,15 @@
+environment{
+	env = "tower-1.2.0.jar" .
+}
+
+agentfiles{
+	"demo_stack.goal" [name = builder] .
+}
+
+emotionFile{
+	"Tower demo/demo.emo2g"
+}
+
+launchpolicy{
+	when entity@env do launch towerBuilder : builder .
+}
