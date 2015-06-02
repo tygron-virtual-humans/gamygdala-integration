@@ -36,20 +36,23 @@
 \pagebreak
 
 \section{Overview}
-In this document you can find the information to work with the EmotionConfiguration file. For this configuration you will need to create a .txt file and set certain commands you might need. Keep in mind that it is not particularly necessary to configure it. If you don not set anything the default values will be used.
+In this document you can find the information to work with the EmotionConfiguration file. For this configuration you will need to create a .txt file and set certain commands you might need. Keep in mind that it is not particularly necessary to configure it. If you don not set anything the default values will be used. It is recommended that you have read the paper on Gamygdala\cite{Gamygdala}. 
 
 \subsection{Default values}
 When you do not specify any commands in the EmotionConfig, default values will be used. Here are the settings that will be present if you don not use a .txt file or if you have an empty .txt file.\\
-DEFAULT GOAL UTILITY = 1;\\
-DEFAULT DROPPED CONGRUENCE = -0.1;\\
-DEFAULT ACHIEVED CONGRUENCE = 0.5;\\
-DEFAULT BELIEF LIKELIHOOD = 1;\\
-DEFAULT ISINCREMENTAL = false;\\
+\begin{tabular}{|r|l|}
+\hline  DEFAULT GOAL UTILITY & 1 \\ 
+\hline  DEFAULT ACHIEVED CONGRUENCE & 0.5  \\ 
+\hline  DEFAULT DROPPED CONGRUENCE & -0.1   \\ 
+\hline  DEFAULT BELIEF LIKELIHOOD& 1   \\ 
+\hline  DEFAULT ISINCREMENTAL & false   \\
+\hline
+\end{tabular}
 \\
-For more information on what these settings stand for, check the dedicated subsections.
+For more information on what these settings stand for, you can check the dedicated subsections.
 
 \subsection{Summary list}
-In this tabular you can find a complete list of all the commands in the form of an example. If you view this online, you can click on the tags in the first column and be directed to the regarding subsections.\\
+In this tabular you can find a complete list of all the commands in the form of an example. For the detailed explenation and syntax you can check the dedicated subsections.\\
 \\
 NOTE: in the .txt file the column are separated ","\\
 \begin{tabular}{|r|l|l|l|l|}
@@ -66,12 +69,12 @@ NOTE: in the .txt file the column are separated ","\\
 	\hline  
 \end{tabular}
 
-
+\pagebreak
 \section{Commands}
 Here you can find all the commands that can be used to set certain default values to your own needs. Keep in mind that the strings (the first part of each command) can also be written in small letters since they will be transformed to uppercases automatically. 
 
 \subsection{Default goal utility}
-This sets the default goal utility to a specific value. The value is a double.\\
+This sets the default goal utility to a specific value. This specifies how "good" or "bad" the goal is for the agent. The value is a double.\\
 \begin{tabular}{|l|l|l|}
 	\hline  Types & String & double  \\ 
 	\hline  Command & DEFAULT GOAL UTILITY & x  \\ 
@@ -164,7 +167,12 @@ This defines a relation between two agents. The relation is a relation that the 
 	\hline 
 \end{tabular} 
 \\
-
+\pagebreak
+\begin{thebibliography}{9}	
+	\bibitem{Gamygdala}
+	Gamygdala emotion engine
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
+\end{thebibliography}
 
  
 
