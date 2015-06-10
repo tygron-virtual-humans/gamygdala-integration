@@ -1,5 +1,7 @@
 \documentclass{scrartcl}
 
+\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage[utf8]{inputenc} % Unicode support (Umlauts etc.)
 \usepackage{hyperref} % Add a link to your document
 \usepackage{graphicx} % Add pictures to your document
@@ -36,14 +38,14 @@
 \pagebreak
 
 \section{Overview}
-In this document you can find the information to work with the EmotionConfiguration file. For this configuration you will need to create a .txt file and set certain commands you might need. Keep in mind that it is not particularly necessary to configure it. If you don not set anything the default values will be used. It is recommended that you have read the paper on Gamygdala\cite{Gamygdala}. 
+In this document you can find the information to work with the EmotionConfiguration file. For this configuration you will need to create a .txt file and set certain commands you might need. Keep in mind that it is not particularly necessary to configure it. If you do not set anything the default values will be used. It is recommended that you have read the paper on Gamygdala\cite{Gamygdala}. 
 
 \subsection{Default values}
-When you do not specify any commands in the EmotionConfig, default values will be used. Here are the settings that will be present if you don not use a .txt file or if you have an empty .txt file.\\
+When you do not specify any commands in the EmotionConfig, default values will be used. Here are the settings that will be present if you do not use a .txt file or if you have an empty .txt file.\\
 \begin{tabular}{|r|l|}
 \hline  DEFAULT GOAL UTILITY & 1 \\ 
-\hline  DEFAULT ACHIEVED CONGRUENCE & 0.5  \\ 
-\hline  DEFAULT DROPPED CONGRUENCE & -0.1   \\ 
+\hline  DEFAULT ACHIEVED CONGRUENCE & 1  \\ 
+\hline  DEFAULT DROPPED CONGRUENCE & -1   \\ 
 \hline  DEFAULT BELIEF LIKELIHOOD& 1   \\ 
 \hline  DEFAULT ISINCREMENTAL & false   \\
 \hline
@@ -52,20 +54,21 @@ When you do not specify any commands in the EmotionConfig, default values will b
 For more information on what these settings stand for, you can check the dedicated subsections.
 
 \subsection{Summary list}
-In this tabular you can find a complete list of all the commands in the form of an example. For the detailed explenation and syntax you can check the dedicated subsections.\\
+In this tabular you can find a complete list of all the commands in the form of an example. For the detailed explanation and syntax you can check the dedicated subsections.\\
 \\
-NOTE: in the .txt file the column are separated ","\\
-\begin{tabular}{|r|l|l|l|l|}
-	\hline  DEFAULT GOAL UTILITY & 1 &  &  &  \\ 
-	\hline  DEFAULT ACHIEVED CONGRUENCE & 0.5 &  &  &  \\ 
-	\hline  DEFAULT DROPPED CONGRUENCE & -0.1 &  &  &  \\ 
-	\hline  DEFAULT BELIEF LIKELIHOOD& 1 &  &  &  \\ 
-	\hline  DEFAULT ISINCREMENTAL & false &  &  &  \\ 
-	\hline  WHITELIST & ON &  &  &  \\ 
-	\hline  GOAL &  agent1 &  getBlock/1 &  0.6 &  \\ 
-	\hline  GOAL &  agent1 &  getBlock/1 &  &  \\ 
-	\hline  SUB& getBlock/1 & 0.16 & getAllBlocks/1 & 1 \\ 
-	\hline  REL &  agent1&  agent2 & -1 &  \\
+NOTE: in the .txt file the column are SEPERATED BY ","\\
+\begin{tabular}{|r|l|l|l|l|l|}
+	\hline  DEFAULT GOAL UTILITY & 1 &  &  &  &\\ 
+	\hline  DEFAULT ACHIEVED CONGRUENCE & 1 &  &  &  &\\ 
+	\hline  DEFAULT DROPPED CONGRUENCE & -1 &  &  &  &\\ 
+	\hline  DEFAULT BELIEF LIKELIHOOD& 1 &  &  &  &\\ 
+	\hline  DEFAULT ISINCREMENTAL & false &  &  &  &\\ 
+	\hline  WHITELIST & ON &  &  &  &\\ 
+	\hline  IGOAL &  agent1 &  getBlock/1 &  0.6&  &\\ 
+	\hline  CGOAL &  agent1 &  getBlock/1 &  0.6&  &\\ 
+	\hline  CGOAL &  agent1 &  getBlock/1 &  &  &\\
+	\hline  SUB& getBlock/1 & 0.16 & getAllBlocks/1 & 1 & True\\ 
+	\hline  REL &  agent1&  agent2 & -1 &  &\\
 	\hline  
 \end{tabular}
 
@@ -74,16 +77,18 @@ NOTE: in the .txt file the column are separated ","\\
 Here you can find all the commands that can be used to set certain default values to your own needs. Keep in mind that the strings (the first part of each command) can also be written in small letters since they will be transformed to uppercases automatically. 
 
 \subsection{Default goal utility}
-This sets the default goal utility to a specific value. This specifies how "good" or "bad" the goal is for the agent. The value is a double.\\
+
+This sets the default goal utility to a specific value. This specifies how "good" or "bad" the goal is for the agent. In other words, the value the agent attributes to this goal
+becoming true ($  \in[-1, 1]$ where a negative value means the agent does not want this to happen).\\
 \begin{tabular}{|l|l|l|}
-	\hline  Types & String & double  \\ 
+	\hline  Types & String & double\i  \\ 
 	\hline  Command & DEFAULT GOAL UTILITY & x  \\ 
 	\hline 
 \end{tabular}
 \\
 
 \subsection{Default achieved congruence}
-This sets the default congruence for goals that are achieved. It specifies how "good" your default feedback is when you achieve a goal.\\
+This sets the default congruence for goals that are achieved. Congruence is a number $\in [-1, 1]$ where negative values mean this belief is blocking the goal and positive values mean this belief facilitates the goal. (Because you achieve or drop a goal in GOAL with certainty these values are set on -1 and 1 and should not be changed for a normal program setup. Only advanced users can use this setting to create more complex programs)\\
 \begin{tabular}{|l|l|l|}
 	\hline  Types & String & double  \\ 
 	\hline  Command & DEFAULT ACHIEVED CONGRUENCE & x  \\ 
@@ -92,7 +97,7 @@ This sets the default congruence for goals that are achieved. It specifies how "
 \\
 
 \subsection{Default dropped congruence}
-This sets the default congruence for goals that are NOT achieved. It specifies how "good" your default feedback is when you cannot achieve a goal.The default value is still expressed as how "good" it is to drop goals. Therefore keep in mind that when you want to have a negative feedback that you have to put in a negative number.\\
+This sets the default congruence for goals that are NOT achieved and therefore being dropped. It specifies how "bad" your default feedback is when you cannot achieve a goal. The default value is still expressed as how "good" it is to drop goals. Therefore keep in mind that when you want to have a negative feedback that you have to put in a negative number.(Because you achieve or drop a goal in GOAL with certainty these values are set on -1 and 1 and should not be changed for a normal program setup. Advanced users can use this setting to create more complex programs)\\
 \begin{tabular}{|l|l|l|}
 	\hline  Types & String & double  \\ 
 	\hline  Command & DEFAULT DROPPED CONGRUENCE & x  \\ 
@@ -101,14 +106,15 @@ This sets the default congruence for goals that are NOT achieved. It specifies h
 \\
 
 \subsection{Default belief likelihood}
-This rule specifies the default setting for the likelihood of beliefs. This value tells thus how "likely" belief are to be true when using this default setting.\\
+This rule specifies the default setting for the likelihood of beliefs. This value tells thus how "likely" belief are to be true when using this default setting. In other words, the likelihood that this information is true $(\in [0, 1])$ where 0 means the belief is
+disconfirmed and 1 means it is confirmed.\\
 \begin{tabular}{|l|l|l|}
 	\hline  Types & String & double  \\ 
 	\hline  Command & DEFAULT BELIEF LIKELIHOOD & x  \\ 
 	\hline 
 \end{tabular}
 \\
-
+\pagebreak
 \subsection{Default isIncremental}
 This specifies if the beliefs of goals are incremented or not. See documentation of Gamygdala for more information on what this feature does.
 You can write any upper/lower case variant of true/false. (True,False,true,false,fAlse...). (The value is being transformed to uppercases)
@@ -119,10 +125,8 @@ Writing anything wrong in the syntax will throw an error instead of setting it o
 	\hline 
 \end{tabular}
 \\
-
-\pagebreak
 \subsection{Whitelist definition}
-This specifies that a white list is used for specifying goals. With this we mean that all the goals that you specify will be used with the specified values, but all other goals will not be used. This is when white list is set on. When white list is off, then the specified goals will be used with their specified values, but other goals, not specified will be using the default settings.There is no OFF setting. If you do not want  white listed goals, simply don not mention is.\\
+This specifies that a white list is used for specifying goals. With this we mean that all the goals that you specify will be used with the specified values, but all other goals will not be used. This is when white list is set on. When white list is off, then the specified goals will be used with their specified values, but other goals (not specified) will be using the default values that can be set with the default commands.There is no OFF setting. If you do not want  white listed goals, simply do not mention this command.\\
 \begin{tabular}{|l|l|l|}
 	\hline  Types & String & String  \\ 
 	\hline  Command & WHITELIST & ON  \\ 
@@ -131,36 +135,46 @@ This specifies that a white list is used for specifying goals. With this we mean
 \\
 
 \subsection{Goal definition}
-\subsubsection{With utility}
-This definition defines the properties of a goal. Agent is the agent for which this specification is true (this is not yet implemented the idea is that eventually you could define different properties for different agents but for the same goal. At the moment it can be filled in with anything and the specification will hold for all agents.). Goal is the name of the goal, this should the same name as the goal is given in GOAL including the arity. Defining a goal like this also adds it to the whitelist if this feature is being used.\\
-\begin{tabular}{|l|l|l|l|l|}
-	\hline  Types& String & String & String & double \\ 
-	\hline  Command & GOAL & agentName & goalName/arity & utility  \\ 
-	\hline 
-\end{tabular} 
-\\
-\subsubsection{without utility}
-This Goal definition can be used to add goals to the whitelist without setting a specific utility (between [-1, 1]), for these goals the default utility will be used. The Agent parameter again specifies which agent this goal should be whitelisted for (again this is not yet implemented).\\
+\subsubsection{Common Goal}
+This goal definition defines a goal that is common for all agents. This means that when this goal is achieved, it will be appraised by all the agents with this goal. The definition of the goal itself stays the same. Only the predicate is different to address the different kinds of goals.\\\
 \begin{tabular}{|l|l|l|l|}
-	\hline  Types& String & String & String \\ 
-	\hline  Command & GOAL & agentName & goalName\\ 
+\hline  Types& String & String & double \\ 
+\hline  Command & CGOAL & goalName & utility\\ 
+\hline 
+\end{tabular}
+\\
+
+\subsubsection{Individual Goal}
+This goal definition defines a goal that is just for 1 agent. Therefore when this goal is achieved, only the agent itself will appraise this goal. No emotions will be changed by appraising this goal for all the other agents that have the same goal in their goal base. This is done by renaming the goal internally when you register it for an agent. The implementation extends the goal name with the agent name so that it gets a unique ID for appraising only for a specific agent.\\
+\begin{tabular}{|l|l|l|l|}
+\hline  Types& String & String & double \\ 
+\hline  Command & IGOAL & goalName & utility\\ 
+\hline 
+\end{tabular}
+\\
+
+\subsubsection{Optional Utility}
+For both the IGOAL and the CGOAL the utility parameter is optional. When not set, it will use the default goal utility that you can set to whatever you want.\\
+\begin{tabular}{|l|l|l|}
+	\hline  Types& String & String  \\ 
+	\hline  Command & IGOAL & goalName \\ 
 	\hline 
 \end{tabular}
 \\
 
 
-\subsection{Belief definition}
-Here you can define a relation between a goal and its subgoal. The likelihood you define tell how the belief of the second goal is altered when the first goal is achieved. You can also set whether it needs to be incremental or not. For more information on what the incremental setting does you can look in the Gamygdala paper.\\
+\subsection{Subgoal definition}
+Here you can define a relation between a goal and its subgoal. The likelihood you define tells the intensity of this goal being true. Putting a low likelihood means that it is not very likely that this happened for real although you get the percept. This alters the emotions of course. The congruence setting is about how good the main goal is for the agent. You can define a relation of a subgoal with a main goal that you do not want to happen. You can also set whether it needs to be incremental or not. For more information on what the incremental setting does you can look in the Gamygdala paper.\\
 \begin{tabular}{|l|l|l|l|l|l|l|}
 	\hline  Types& String & String & double & String & double & Boolean \\ 
-	\hline  Command & SUB & goalName1/arity & x & goalName2/arity & y & true/false\\ 
+	\hline  Command & SUB & goalName1/arity & likelihood & goalName2/arity & congruence & true/false\\ 
 	\hline 
 \end{tabular} 
 \\
 
 
 \subsection{Relation definition}
-This defines a relation between two agents. The relation is a relation that the SourceAgent has with the DestinationAgent, the value is how good or bad this relation is (between [-1,1]). The relation is one sided so DestinationAgent does not have the same relation with SourceAgent unless you add it separately. Both SourceAgent and DestinationAgents should be the names that the agents are given in GOAL.\\
+This defines a relation between two agents. The relation is a relation that the SourceAgent has with the DestinationAgent, the value is how good or bad this relation is ($\in [-1,1]$). The relation is one sided so DestinationAgent does not have the same relation with SourceAgent unless you add it separately. Both SourceAgent and DestinationAgents should be the names that the agents are given in GOAL.\\
 \begin{tabular}{|l|l|l|l|l|}
 	\hline  Types& String & String & String & double\\ 
 	\hline  Command & REL & agentName1 & agentName2 & relation \\ 
