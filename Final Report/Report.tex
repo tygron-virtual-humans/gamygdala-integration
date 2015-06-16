@@ -1,0 +1,127 @@
+\documentclass[]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{glossaries}
+\usepackage{hyperref}
+\makeglossaries
+
+\newglossaryentry{Gamygdala}
+{
+	name=Gamygdala,
+	description={An emotional engine created to simulate emotions for virtual identities\cite{Gamygdala}.}
+}
+
+\newglossaryentry{GOAL}
+{
+	name=GOAL,
+	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}.}
+}
+
+\newglossaryentry{agent}
+{
+	name=agent,
+	description={A virtual identity that uses logical rules to derive the wanted actions and can percept events from the environment. It is AI.}
+}
+
+\newglossaryentry{MoSCoW}
+{
+	name=MoSCoW,
+	description={A method used to fill in requirements for a project based on difference in priority regarding the final goal of the project.\cite{MoSCoW}}
+}
+
+
+\title{Final Report}
+\author{GROUP: Gamygdala-Integration:\\
+	B.L.L. Kreynen\\
+	M. Spanoghe\\
+	R.A.N. Starre\\
+	Yannick Verhoog\\
+	J.H. Wooning\\
+	}
+
+
+
+
+\begin{document}
+% Title Page
+\maketitle
+\pagebreak
+\tableofcontents
+\pagebreak
+\section{Abstract}
+
+\section{Introduction}
+In this section you can find a brief introduction to the context problem and to the solutions applied by group 3. 
+\subsection{Problem description}
+The research problem is stated by a company called Tygron. They provide local authorities with a game in which their city is fully simulated. In this game the council members can discuss difficult matters on where to build certain structures. By doing so they gain an understanding of everybody's needs and responsibilities. The main question that rises is the possibility of replacing one of those players with an Artificial Intelligence solution. Since the players of this game mostly interact in an emotional way, as real humans do, these bots should feel emotions too.\par 
+This topic is very interesting because it has many applications. Both further research and different industries can profit from this. For this context project the students work in a large group that is subdivided into different smaller groups each with specific tasks. In total there are 4 groups of 5 students that work together. Together the whole group will make a proof of concept by creating a game in the Tygron engine\cite{Tygron}, creating an interface between the Tygron engine and \gls{GOAL} and creating both a plug-in and an integration of the \gls{Gamygdala} emotional engine in GOAL. The specific task of this subgroup is to provide the group that will create an agent with an integration of Gamygdala in GOAL. It is not our task to implement the engine itself, since it is already present, but it is our job to integrate it in GOAL in a way that programmers, like the other groups, can make use of this when creating virtual humans.\par 
+In this report there is given a overview of the user requirements first. Then a list of the implemented software product is explained in detail. After that, you can find a reflection of the product and process from a software engineering perspective. This is followed by a detailed list of implemented features. A section on the Human Computer Interaction will then explain how the product and users interact. Finally a conclusion and outlook will list all the important findings and future improvements.
+\\
+
+\subsection{User requirements}
+In this section you can find the specific tasks the product should fulfill.
+By using the \gls{MoSCoW} method we can subdivide the high level specifications into the following. The subsections decrease in importance or priority. This means that for example the MUST-haves are way more important to implement than the COULD-haves. This method is very handy and more information can be found in the glossary or references.
+\subsubsection*{Must haves}
+\begin{itemize}
+	\item An \gls{agent} in GOAL must have an equivalent in Gamygdala.
+	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. This means that if you define a goal for an agent in GOAL that the Gamygdala engine must also know of this. New goals must be communicated to Gamygdala.
+	\item It must be possible to define how good or bad a belief is for certain goals.
+	\item It must be possible to define relations between agents in GOAL.
+	\item It must be possible to have these relations also present in Gamygdala. Again, it must be the case that when a relation is created in GOAL, the Gamygdala engine knows about this relation. Otherwise no emotions between two agents can be calculated.
+	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
+	\item It must be possible to setup an initial emotion of an agent.
+\end{itemize}
+ 
+\subsubsection*{Should haves}
+
+\begin{itemize}
+	\item It should be possible to set the gain to a specific value.
+	\item It should be possible to set the decay to a specific function.
+	\item The  Gamygdala goals and its properties should be possible to change. This also includes the relations regarding beliefs and goals.
+	\item It should be possible to display the emotional states in the Simple IDE\cite{SimpleIDE} provided with GOAL for debugging.
+\end{itemize}
+
+
+\subsubsection*{Could haves}
+
+\begin{itemize}
+	\item It could be possible to set a custom decay function.
+	\item It could be possible to change relations during runtime.
+	
+	\item It could be possible for an agent to reason about other agents emotional bases.
+\end{itemize}
+
+\subsubsection*{Will not haves}
+\begin{itemize}
+	\item Eclipse plug-in
+\end{itemize}
+
+\clearpage
+\printglossaries
+
+
+\begin{thebibliography}{9}
+	
+	\bibitem{GOAL}
+	GOAL programming language
+	\url{http://ii.tudelft.nl/trac/goal}
+	
+	\bibitem{Gamygdala}
+	Gamygdala emotion engine
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
+	
+	\bibitem{MoSCoW}
+	MoScoW method
+	\url{http://en.wikipedia.org/wiki/MoSCoW_method }
+	
+	\bibitem{Tygron}
+	Tygron engine
+	\url{http://www.tygron.com }
+	
+	\bibitem{SimpleIDE}
+	Simple IDE
+	\url{https://github.com/goalhub/simpleIDE }
+	
+	
+\end{thebibliography}
+
+\end{document}     
