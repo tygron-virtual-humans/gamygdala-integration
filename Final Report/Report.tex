@@ -96,6 +96,26 @@ By using the \gls{MoSCoW} method we can subdivide the high level specifications 
 \end{itemize}
 
 \clearpage
+
+\section{Outlook}
+This section gives a recommendation as to what possible improvements there still are for future expansion of the project.
+
+\subsection{Emotion configuration parser}
+First off we define the properties of the emotion configuration in a regular text file that is parsed by a simple parser. It's not a bad idea to improve upon this and to create a new file with the ANTLR framework that is used for the other files in GOAL as well. Furthermore while our parser does throw errors which mention which line numbers are still incorrect it would be nice if this could be statically checked and displayed in the SimpleIDE or the GOAL plug-in for eclipse.
+
+\subsection{Emotion configuration}
+Secondly there are still a few things that could be added to the emotion configuration. It is possible to define common goals and individual goals and it is possible to define that the individual goals only apply to certain agents. However it is not possible to define a notion of teams for the common goals, if a common goal is defined and two agents adopt this goal then it is assumed that they are working together on this goal in some instances it might be useful to have an optional parameter that allows you to define multiple teams for these common goals. However before adding something like this it should also be considered whether this does not complicate the emotion configuration too much for a feature that might not be all that widely used.
+
+\subsection{Aspects of GOAL that influence emotions}
+There are still some aspects in GOAL that are not being taken into account for the evaluation of emotions but which could potentially be interesting. For example bots can send messages to each other and bots can also try to reason about the goals and beliefs that other agents are holding. These parts of GOAL have no effect on emotions in the current implementation. An example of how this could affect emotions is that needing to drop a GOAL because of a message given by another agents is less bad than having to drop a GOAL because of your own observations (the idea being that you were notified beforehand and had to waste less time trying to achieve this goal before realizing you couldn't complete it anymore). While we're not sure how this should affect emotions exactly it would be interesting to take a look at what could be done in these areas. Although, again, adding definitions for these things might make the emotion configuration overly complicated for a feature that might not have that big of an effect, this should be considered when thinking of these features. Either a smart way of setting a standard for these messages (so that programmers just have to send the correct message and not worry about any other configuration) or a very easy way of defining them in the emotion configuration should be figured out.
+
+\subsection{Causal agents}
+At the moment determining the causal agent of dropping or achieving a goal is fairly simplistic, for individual goals the causal agent is always the agent itself and for common goals it is the agents that first achieved that goal. This does not always reflect the real world and it might be interesting to see what can be done to improve this. Again just like with the other sections it should be carefully thought out so that it does not complicate the use of gamygdala within GOAL too much. For this an potentially interesting solution would be to define a new drop and insert predicate that not only takes the goal/belief to drop/insert as input but that also allows the programmer to enter which agent caused this drop/insert.
+
+\subsection{Code quality}
+Finally, in terms of code quality there can always be improvements of course. Some parts of the code would benefit from being re-factored a bit. Most of the code would also benefit from better integration testing, but this is not only a problem in our own code but also in the code of GOAL. In terms of unit testing the code written by our group scores pretty high but throughout the project we noticed a few times that some changes created serious issue in GOAL but none of our tests notified us of this. This was caused by a shortage of integration testing, all the individual components still seemed to work perfectly fine but when combined in certain scenarios they failed and these scenarios were not always tested. As mentioned, this would also be a recommendation to GOAL itself, at one time for example a modification to updating the goal base caused one of our two agents to not perform any actions anymore at all, this was not caught by integration nor unit tests of GOAL.
+
+\clearpage
 \printglossaries
 
 
