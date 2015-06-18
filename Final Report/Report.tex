@@ -58,44 +58,9 @@ In this report there is given a overview of the user requirements first. Then a 
 \\
 
 \subsection{User requirements}
-In this section you can find the specific tasks the product should fulfill.
-By using the \gls{MoSCoW} method we can subdivide the high level specifications into the following. The subsections decrease in importance or priority. This means that for example the MUST-haves are way more important to implement than the COULD-haves. This method is very handy and more information can be found in the glossary or references.
-\subsubsection*{Must haves}
-\begin{itemize}
-	\item An \gls{agent} in GOAL must have an equivalent in Gamygdala.
-	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. This means that if you define a goal for an agent in GOAL that the Gamygdala engine must also know of this. New goals must be communicated to Gamygdala.
-	\item It must be possible to define how good or bad a belief is for certain goals.
-	\item It must be possible to define relations between agents in GOAL.
-	\item It must be possible to have these relations also present in Gamygdala. Again, it must be the case that when a relation is created in GOAL, the Gamygdala engine knows about this relation. Otherwise no emotions between two agents can be calculated.
-	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
-	\item It must be possible to setup an initial emotion of an agent.
-\end{itemize}
- 
-\subsubsection*{Should haves}
+The user requirements are fully listed in the product planning. Here a brief overview is introduced.\par
+The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions. Without a lot of work (it should be very easy) the programmer can define what makes the agent happy and what not. This can be done by setting a configuration file which is provided with a full documentation. Also he can check which emotions are present at a certain moment for a certain agent. This so that he can debug with the emotions and see what results certain settings can cause. Furthermore the programmer can query the emotions in GOAL so that he can program certain logical rules. For example, the programmer queries whether the agent is happy. If he is happy, then he should stop moving and chill out.\par Keep in mind that all the features and settings need to be documented very thoroughly so that programmers can add these emotional features very easily. The focus is on all this being easy. No complicated settings are needed at all (they can be used when demanded) to get emotional agents. All these features are an overview of the requirements this project should fulfill at the end. As mentioned before, a full list of the user requirements in the MoSCoW-form can be found in the product planning.
 
-\begin{itemize}
-	\item It should be possible to set the gain to a specific value.
-	\item It should be possible to set the decay to a specific function.
-	\item The  Gamygdala goals and its properties should be possible to change. This also includes the relations regarding beliefs and goals.
-	\item It should be possible to display the emotional states in the Simple IDE\cite{SimpleIDE} provided with GOAL for debugging.
-\end{itemize}
-
-
-\subsubsection*{Could haves}
-
-\begin{itemize}
-	\item It could be possible to set a custom decay function.
-	\item It could be possible to change relations during runtime.
-	
-	\item It could be possible for an agent to reason about other agents emotional bases.
-\end{itemize}
-
-\subsubsection*{Will not haves}
-\begin{itemize}
-	\item Eclipse plug-in
-\end{itemize}
-
-\clearpage
 
 \section{Reflection on the product and process from a software engineering perspective}
 In this section we will reflect in on our product and our process from a software engineering perspective. We will describe some of the problems we encountered and what we learned from them as well as how things could have been improved. We will start with a look at the product and after that we will look at the process.
