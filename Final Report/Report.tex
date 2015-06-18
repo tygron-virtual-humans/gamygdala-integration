@@ -151,6 +151,16 @@ At the moment determining the causal agent of dropping or achieving a goal is fa
 \subsection{Code quality}
 Finally, in terms of code quality there can always be improvements of course. Some parts of the code would benefit from being re-factored a bit. Most of the code would also benefit from better integration testing, but this is not only a problem in our own code but also in the code of GOAL. In terms of unit testing the code written by our group scores pretty high but throughout the project we noticed a few times that some changes created serious issue in GOAL but none of our tests notified us of this. This was caused by a shortage of integration testing, all the individual components still seemed to work perfectly fine but when combined in certain scenarios they failed and these scenarios were not always tested. As mentioned, this would also be a recommendation to GOAL itself, at one time for example a modification to updating the goal base caused one of our two agents to not perform any actions anymore at all, this was not caught by integration nor unit tests of GOAL.
 
+\section{Functionality Description}
+\subsection{Default functionality}
+The purpose of the integration of Gamygdala into the GOAL runtime is to provide all of Gamygdalas functionality continuously in the GOAL multi-agent system. This is possible because Gamygdala is, as GOAL obviously is, goal-oriented. This implementation was chosen so that developers do not need to code for every call to Gamygdala, but rather every update relevant to an agent's (specified) goals is evaluated by Gamygdala automatically. After evaluation, an agents updated emotional state is inserted into the emotion base, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment, similar to the belief and especially the percept base. Developers can use a large portion of the functionality of Gamygdala without having to write one line of extra code. It's just there doing its job. A developer can write agents that reason about their emotions just as if they were another percept from an environment, but in this isntance the environment is internal to the agent. Agents cannot read each others emotional states, only their own. They all have perfect poker faces. Developers can, of course, choose to let their agent notify other agents of their emotional state whenever they want. This would be useful to do in many environments. Adding the option to do this automatically, with various levels of transparancy, would be a useful extension to this project if it is continued.
+
+There are default values for all the parameters available to Gamygdala and many others relevant to the function of Gamygdala within GOAL, which can be modified by developers in the emotion configuration file.
+
+
+\subsection{Emotion configuration options}
+In this section an overview is given of the options in the emotion configuration file. For more detailed descriptions of every option, please refer to the EmotionConfig Documentation in Appendix X. 
+
 \clearpage
 \printglossaries
 
