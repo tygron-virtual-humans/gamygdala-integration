@@ -4,9 +4,7 @@
 \usepackage{glossaries}
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
-
 \usepackage[toc,page]{appendix}
-
 \makeglossaries
 
 \newglossaryentry{Gamygdala}
@@ -131,7 +129,24 @@ The feedback we've gained is somewhat superficial, it was certainly useful feedb
 
 Only being able to do it with one group also makes the feedback more limited the product should be tested on some more groups to gain more diverse feedback.
 
-\clearpage
+\section{Evaluation of the functional modules and the product in its entirety, including the
+	failure analysis}
+This section is split up in two main subsections. The evaluation of the functional modules and the failure analysis. The evaluation is about how our functionalities were evaluated and in the failure analysis section a list of failures during the process is given.
+
+\subsection{Evaluation}
+To evaluate the functional modules this group used the tutorial and the HCI meeting with the other group. In this evaluation is was clear that the main functionalities that were needed were present and working. The other group successfully finished the tutorial and was able to implement their emotional agent with the functionalities provided by us. However, they did not have enough time to use the implementations extensively. This means that the feedback is not very in depth and thus mainly based on small bugs and lack of documentation. You can find the evaluation of the HCI in the dedicated section.
+
+\subsection{Failure analysis}
+In this section the major failures that our group encountered will be explained. These involve the problems, how they arose and how they have been fixed or why they were not easily fixed. As the definition of failure states, a failure occurs when the delivered service no longer complies with the specifications.(According to Laprie et al.)\cite{failure}
+
+\subsubsection*{Empty EmotionConfig}
+An empty EmotionConfig file caused some default values to be 0 instead their intended default values. The cause of this failure was mainly because of the way the parser used the singleton of the EmotionConfig. When the parser finds no lines an empty EmotionConfig was returned instead of an instance which would automatically set values and return that instance whenever you ask it. This failure was present for a long time but during the tutorial our group found out it was there. It can be defined as a failure since it does not comply with the specifications. An empty EmotionConfig should use the default settings. It was easy to solve this failure. More unittests would have caught this.
+
+\subsubsection*{Agent stuck}
+During the implementations of the achievements of goals a certain failure arose. 2 agents were ran with the same GOAL code, but for some reason one of the bots got stuck when performing actions. The problem was synchronization. The lack of integration tests from both GOAL programmers as this group caused this failure to get into the code. It was an easy problem to solve, but the fact that it was present was bad. Our group handled accordingly to this problem by making  more integration tests. 
+
+\subsubsection*{EmotionBase}
+Our group specified the requirements that the programmer in GOAL can look at an Emotionbase, just like the beliefbase, and see the emotion present for a certain agent. This feature was harder to implement that expected. Trying to mimic the belief or percept base was not as easy as it seemed. Eventually the emotions were added but could not be querried as intended. This failure was hard to fix and it is not fully working yet. 
 
 \section{Outlook}
 This section gives a recommendation as to what possible improvements there still are for future expansion of the project.
@@ -190,6 +205,11 @@ Finally, in terms of code quality there can always be improvements of course. So
 	\bibitem{SimpleIDE}
 	Simple IDE
 	\url{https://github.com/goalhub/simpleIDE }
+	
+	\bibitem{failure}
+	J. C. Laprie (Ed.).\\ 
+	Dependability: Basic Concepts and Terminology. \\
+	Springer-Verlag, Wein, New York, 1992.\\
 	
 	
 \end{thebibliography}
