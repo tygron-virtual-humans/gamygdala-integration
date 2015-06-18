@@ -1,7 +1,12 @@
-\documentclass[]{article}
+\documentclass[11pt]{article}
+\usepackage{a4}
 \usepackage[utf8]{inputenc}
 \usepackage{glossaries}
 \usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage{uarial}
+\renewcommand{\familydefault}{\sfdefault}
+
 \makeglossaries
 
 \newglossaryentry{Gamygdala}
@@ -31,15 +36,12 @@
 
 \title{Final Report}
 \author{GROUP: Gamygdala-Integration:\\
-	B.L.L. Kreynen\\
-	M. Spanoghe\\
-	R.A.N. Starre\\
-	Yannick Verhoog\\
-	J.H. Wooning\\
-	}
-
-
-
+	B.L.L. Kreynen, bkreynen, 4331842\\
+	M. Spanoghe, mspanoghe, 4331834\\
+	R.A.N. Starre, rstarre, 4334620\\
+	Y.L. Verhoog, ylverhoog, 4155335\\
+	J.H. Wooning, jwooning, 4245318\\
+}
 
 \begin{document}
 % Title Page
@@ -48,6 +50,8 @@
 \tableofcontents
 \pagebreak
 \section{Abstract}
+
+\clearpage
 
 \section{Introduction}
 In this section you can find a brief introduction to the context problem and to the solutions applied by group 3. 
@@ -61,6 +65,25 @@ In this report there is given a overview of the user requirements first. Then a 
 The user requirements are fully listed in the product planning. Here a brief overview is introduced.\par
 The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions. Without a lot of work (it should be very easy) the programmer can define what makes the agent happy and what not. This can be done by setting a configuration file which is provided with a full documentation. Also he can check which emotions are present at a certain moment for a certain agent. This so that he can debug with the emotions and see what results certain settings can cause. Furthermore the programmer can query the emotions in GOAL so that he can program certain logical rules. For example, the programmer queries whether the agent is happy. If he is happy, then he should stop moving and chill out.\par Keep in mind that all the features and settings need to be documented very thoroughly so that programmers can add these emotional features very easily. The focus is on all this being easy. No complicated settings are needed at all (they can be used when demanded) to get emotional agents. All these features are an overview of the requirements this project should fulfill at the end. As mentioned before, a full list of the user requirements in the MoSCoW-form can be found in the product planning.
 
+\clearpage
+
+\section{Overview of the developed and implemented software product}
+This section gives an overview of what we implemented in this project. 
+
+\subsection{Emotion configuration}
+The emotion configuration is the most important part of our implementation. It is an instance which holds all the gamygdala settings for a GOAL program. This EmotionConfig instance is used in the main GOAL cycle to determine if the emotions of the gamygdala agent should be updated.
+
+\subsection{Parser}
+To be able to use the EmotionConfig in GOAL we had to write a parser for the EmotionConfig. The parsing for the goal and mas2g files in GOAL is done by using the parsing tool ANTLR. However, after we made up a syntax for the emotion configuration we thought it would be overly complicated to use ANTLR for this parser.\\
+Instead we used a simple implementation where the parser iterates over the lines and reads what setting is configured on that line. While parsing the EmotionConfig instance is updated according to the configured settings. For the goals, subgoals and relations a new object is created to store in the EmotionConfig. 
+
+\subsection{Mentalstate}
+We had to implement changes to the mentalstate to be able to create a emotionbase for an agent. With this emotionbase the programmer using goal can easily see what emotions an agent currently has. Before prolog starts reasoning about beliefs it merges all beliefbases for an agent, with the emotionbase (which is a beliefbase) prolog also takes the emotions into account. This way the programmer can use the emotions just as he would use any other belief.
+
+\subsection{SimpleIDE}
+We also changed the simpleIDE to make it able to edit the emotion configuration file. This includes changes in the filepanel to let the emo2g files show as a child of the mas2g file, parsing errors and a tab to be able to debug the emotion base. We unfortunately did not have the time to add syntax highlighting for the emotion configuration file or the emotionFile block in the mas2g file. 
+
+\clearpage
 
 \section{Reflection on the product and process from a software engineering perspective}
 In this section we will reflect in on our product and our process from a software engineering perspective. We will describe some of the problems we encountered and what we learned from them as well as how things could have been improved. We will start with a look at the product and after that we will look at the process.
@@ -107,6 +130,8 @@ The details that were still missing in the documentation will be added to it and
 The feedback we've gained is somewhat superficial, it was certainly useful feedback but sadly enough the other teams did not have enough time to use the program for an extended period of time and then have an interview with us. Pretty much all of the received feedback was feedback on the documentation, we feel like if they would have had more time to use our program that we would have received more valuable feedback on missing features and the usability of our implemented features.
 
 Only being able to do it with one group also makes the feedback more limited the product should be tested on some more groups to gain more diverse feedback.
+
+\clearpage
 
 \section{Outlook}
 This section gives a recommendation as to what possible improvements there still are for future expansion of the project.
