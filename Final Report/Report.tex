@@ -117,15 +117,39 @@ Finally, in terms of code quality there can always be improvements of course. So
 
 \section{Functionality Description}
 \subsection{Default functionality}
-The purpose of the integration of Gamygdala into the GOAL runtime is to provide all of Gamygdalas functionality continuously in the GOAL multi-agent system. This is possible because Gamygdala is, as GOAL obviously is, goal-oriented. This implementation was chosen so that developers do not need to code for every call to Gamygdala, but rather every update relevant to an agent's (specified) goals is evaluated by Gamygdala automatically. After evaluation, an agents updated emotional state is inserted into the emotion base, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment, similar to the belief and especially the percept base. Developers can use a large portion of the functionality of Gamygdala without having to write one line of extra code. It's just there doing its job. A developer can write agents that reason about their emotions just as if they were another percept from an environment, but in this isntance the environment is internal to the agent. Agents cannot read each others emotional states, only their own. They all have perfect poker faces. Developers can, of course, choose to let their agent notify other agents of their emotional state whenever they want. This would be useful to do in many environments. Adding the option to do this automatically, with various levels of transparancy, would be a useful extension to this project if it is continued.
+The purpose of the integration of Gamygdala into the GOAL runtime is to provide all of Gamygdalas functionality continuously in the GOAL multi-agent system. This is possible because Gamygdala is, as GOAL obviously is, goal-oriented. This implementation was chosen so that developers do not need to code for every call to Gamygdala, but rather every update relevant to an agent's (specified) goals is evaluated by Gamygdala automatically. After evaluation, an agents updated emotional state is inserted into the emotion base, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment, similar to the belief and especially the percept base. Developers can use a large portion of the functionality of Gamygdala without having to write one line of extra code. It's just there doing its job. A developer can write agents that reason about their emotions just as if they were another percept from an environment, but in this isntance the environment is internal to the agent. Agents cannot read each others emotional states, only their own. They all have perfect poker faces. Developers can, of course, choose to let their agent notify other agents of their emotional state whenever they want through GOALs messaging system. This would be useful to do in many environments where agents should act human-like. People can choose to let each other know how they feel. Adding the option to do this automatically, with various levels of frequency and detail, could be a useful extension to this project if it is continued.
 
-There are default values for all the parameters available to Gamygdala and many others relevant to the function of Gamygdala within GOAL, which can be modified by developers in the emotion configuration file.
+There are default values for all the parameters available to Gamygdala and many other options relevant to the function of Gamygdala within GOAL, which can be modified by developers in the emotion configuration file.
 
 
 \subsection{Emotion configuration options}
-In this section an overview is given of the options in the emotion configuration file. For more detailed descriptions of every option, please refer to the EmotionConfig Documentation in Appendix X. 
+In this section an overview is given of the options in the emotion configuration file. A selection of these options will be examined more closely.For more detailed descriptions of every option and their grammar, please refer to the EmotionConfig Documentation in Appendix ???. 
 
-\subsection{Use cases}
+The emotion configuration file is optional. If it is not present in the same folder as the agent file, only default values will be used. If any options are not specified in the emotion configuration file, default values will be used.
+
+It contains settings for the default parameters given to gamygdala, such as default goal utility, default goal congruence and the speed of decay of emotions and a whitelist option There are sections for the definition of goals and their individual utility which overrides the default,the the definitions of subgoals, which include the unique congruence of the subgoal, and the relations between agents.
+
+\subsubsection{Gamygdala parameters}
+Default Goal Utility\\
+This value specifies how valuable achievement of a goal is for an agent. A positive value means achieving the goal is valuable and will cause positive emotions, a negative value implies achieving it will cause negative emotions. Normal setting is 1.\\
+\\
+Default achieved congruence\\
+This value controls the congruence of the event that an agent achieves a goal. In simple environments it is usually set to 1, so achieving a goal simply registers as a positive event in Gamygdala, but for more complex MASs it might prove necessary to lower the congruence setting for subgoals that contribute to a larger goal relative to their importance.\\
+\\
+Default dropped congruence\\
+The congruence of the event that a goal is dropped. Very similar to the achieved congruence, but with a different trigger. By default set to -1, so an agent will receive negative emotions from Gamygdala when a goal is dropped.\\
+\\
+Default belief likelihood\\
+This is set to 0 or 1 in most cases because in GOAL beliefs are true or not, for example when a goal is achieved or dropped, and there is no probability. Gamygdala can do calculations on beliefs with probabilities and requires a likelihood parameter with every update. This setting can be overridden for subgoals of which it is not certain whether they contribute to a larger goal.\\
+\\
+\subsubsection{Goal definitions}
+Goal types\\
+There are two types of goals that can be specified in this section of the configuration. Common goals that are shared by all agents with that goal, and individual goals that are only pursued by a singular agent. If a goal is common, reaching it will cause the emotional states of all agents with that goal to be evaluated. If it is individual, only one agent will update and the rest will remain unaffected. For every goal, a utility can be specified that overrides the default setting. Individual goals can be specified without an agent name parameter so the individual goal is given to all agents. Goals should be named the same as they are in GOAL.\\
+\\
+Subgoal definition\\
+In this section of the config file the congruence of goals towards other goals can be specified, creating a tree-like structure of goals that contribute toward each other. The likelihood that the achievement of a subgoal will contribute toward the larger goal can also be changed.
+\subsubsection{Relation definition}
+Here the relations between agents in a MAS can be specified. A positive number equals a good relationship, zero is indifference and a negative number means animosity. When an agents emotional state is updated, all agents it has a relation with update their emotional state proportional to the change and the strength and sign of the relationship. The names of agents given must be the same as their names in GOAL.
 
 \clearpage
 \printglossaries
