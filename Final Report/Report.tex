@@ -4,8 +4,8 @@
 \usepackage{glossaries}
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
-\usepackage{uarial}
-\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[toc,page]{appendix}
 
 \makeglossaries
 
@@ -153,6 +153,20 @@ Finally, in terms of code quality there can always be improvements of course. So
 
 \clearpage
 \printglossaries
+
+\begin{appendices}
+	\section{HCI}
+	In this appendix you can find a full report on the HCI meeting and all things that happened. Also with this appendix an audio file with a length of 1h16min is included which is a full recording of the tutorial. Here are the notes our group took during the introduction of our implementations.\\
+	\\
+	"From the start it seems that importing the project is an uncertain problem. For 2 of the 3 members of the group is it not clear what to do with it. One knows what to do and is helping. Cloning from Github directly into Eclipse seems to do weird things. Somehow the project is imported in that way but the folders are not known as source folders thus running Java code is not working. Now they are trying to clone to the harddisk and then import it into Eclipse. This seems to work. Now they mention that converting it to a maven project is not an option when you right click. It is under the tab configuration which is not mentioned clearly in the guide it seems. Now they tell the same thing for maven install. It is under the tab Run As which is somehow unclear for the members of the group. One of them is still in the goal perspective and this is bugging Eclipse. Bernd is helping them now and telling they should better be in the Java perspective instead of the GOAL perspective.\par 
+	They have come to the point of running an agent with an empty emotionConfig configuration file. They are running the agent and they look at the current feelings of the agent and say that nothing is present. No emotions are given. They take a look at the mas2g file but it seems to be set correctly. They think it is a bug. It is a bug indeed. We tell them that we will fix this because it should give emotions when an empty file is set. Now they are trying out the whitelist option our group implemented. The information is not that clear. They are arguing what the intention is and what it does. They are not reading the documentation very thoroughly. They have gotten it working and now they ask us how you can make actions alter emotions. They can do this by adding goals to do the actions and then when the action is performed a goal is achieved and an emotion can be given. They are happy with this answer and think it is a good solution. They wonder why emotions like distress are coming. They did not read through all the documentation saying that dropping goals also cast emotions. They are getting a version working and they are excited that their agents get emotions. They wonder now what the isIncremental does. They can find this in the Gamygdala paper but it is a bit unclear that the last parameter(boolean) is about this setting. We will change this. \par Now they have a version working with subgoals. They tried to run with a goal with a congruence of 3. This cannot happen since the congruence must be between -1 and 1. It is mentioned at a certain section but not in the section of the subgoals. Now they have finished the single bot tasks and will see if they can get two bots working together.\par It seems unclear they have to change the masfile to run the second agent with the same GOAL code. After a while our group helped them because this is just a little change in the commands in the mas2g files. Now they want to query an emotion and alter an action. They try to use the gam() predicate but it is not correct. They should use the emo() predicate. This is being mentioned incorrectly in the tutorial. They tell us they will try to let one agent chill out in the Dropzone when he is happy enough. They get this working after a while because first they let him perform an action but the logical rule was not high enough in the calling order so other logical rules are getting called before that one. This is something you should think about when programming in GOAL. They set the relations which works the first time they try it. They reflect on what the did and are done."\\
+	\\
+	Together with these notes the full audio file can be found here:
+	reference
+\end{appendices}
+
+
+
 
 
 \begin{thebibliography}{9}
