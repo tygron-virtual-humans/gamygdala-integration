@@ -42,12 +42,13 @@ In this document you can find the information to work with the EmotionConfigurat
 
 \subsection{Default values}
 When you do not specify any commands in the EmotionConfig, default values will be used. Here are the settings that will be present if you do not use a .txt file or if you have an empty .txt file.\\
-\begin{tabular}{|r|l|}
-\hline  DEFAULT GOAL UTILITY & 1 \\ 
-\hline  DEFAULT ACHIEVED CONGRUENCE & 1  \\ 
-\hline  DEFAULT DROPPED CONGRUENCE & -1   \\ 
-\hline  DEFAULT BELIEF LIKELIHOOD& 1   \\ 
-\hline  DEFAULT ISINCREMENTAL & false   \\
+\begin{tabular}{|r|l| l|}
+\hline  DEFAULT GOAL UTILITY & 1 & \\ 
+\hline  DEFAULT ACHIEVED CONGRUENCE & 1 & \\ 
+\hline  DEFAULT DROPPED CONGRUENCE & -1 &  \\ 
+\hline  DEFAULT BELIEF LIKELIHOOD& 1 &  \\ 
+\hline  DEFAULT ISINCREMENTAL & false &  \\
+\hline  DECAY & exponential & 0.8 \\
 \hline
 \end{tabular}
 \\
@@ -64,6 +65,7 @@ NOTE: in the .txt file the column are SEPERATED BY ","\\
 	\hline  DEFAULT BELIEF LIKELIHOOD& 1 &  &  &  &\\ 
 	\hline  DEFAULT ISINCREMENTAL & false &  &  &  &\\ 
 	\hline  WHITELIST & ON &  &  &  &\\ 
+	\hline  DECAY & exponential & 0.8 & & & \\
 	\hline  IGOAL &  getBlock/1 &  agent1 &  0.6&  &\\ 
 	\hline  CGOAL &  getBlock/1 &  agent1 &  0.6&  &\\ 
 	\hline  CGOAL &  getBlock/1 &  agent1 &  &  &\\
@@ -123,6 +125,14 @@ Writing anything wrong in the syntax will throw an error instead of setting it o
 	\hline  Types & String & Boolean  \\ 
 	\hline  Command & DEFAULT ISINCREMENTAL & true/false  \\ 
 	\hline 
+\end{tabular}
+\\
+\subsection{Decay}
+Gamygdala decays emotions over time according to a given decay function. There are two decay functions you can choose from exponential and linear decay. This should be entered in the functionName parameter of the command. You should also set the parameter x to determine how fast the decay function should decay. so entering exponential (or exp is also allowed) gives a exp(x) decay function and entering linear (or lin) give is lin(x) decay function. \\
+\begin{tabular}{|l|l|l|l|}
+	\hline  Types & String & String & double  \\ 
+	\hline  Command & DECAY & functionName & x \\
+	\hline  
 \end{tabular}
 \\
 \subsection{Whitelist definition}
