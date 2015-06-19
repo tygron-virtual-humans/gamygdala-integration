@@ -1,7 +1,10 @@
-\documentclass[]{article}
+\documentclass[11pt]{article}
+\usepackage{a4}
 \usepackage[utf8]{inputenc}
 \usepackage{glossaries}
 \usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[toc,page]{appendix}
 \makeglossaries
 
 \newglossaryentry{Gamygdala}
@@ -31,15 +34,12 @@
 
 \title{Final Report}
 \author{GROUP: Gamygdala-Integration:\\
-	B.L.L. Kreynen\\
-	M. Spanoghe\\
-	R.A.N. Starre\\
-	Yannick Verhoog\\
-	J.H. Wooning\\
-	}
-
-
-
+	B.L.L. Kreynen, bkreynen, 4331842\\
+	M. Spanoghe, mspanoghe, 4331834\\
+	R.A.N. Starre, rstarre, 4334620\\
+	Y.L. Verhoog, ylverhoog, 4155335\\
+	J.H. Wooning, jwooning, 4245318\\
+}
 
 \begin{document}
 % Title Page
@@ -48,6 +48,8 @@
 \tableofcontents
 \pagebreak
 \section{Abstract}
+
+\clearpage
 
 \section{Introduction}
 In this section you can find a brief introduction to the context problem and to the solutions applied by group 3. 
@@ -58,44 +60,128 @@ In this report there is given a overview of the user requirements first. Then a 
 \\
 
 \subsection{User requirements}
-In this section you can find the specific tasks the product should fulfill.
-By using the \gls{MoSCoW} method we can subdivide the high level specifications into the following. The subsections decrease in importance or priority. This means that for example the MUST-haves are way more important to implement than the COULD-haves. This method is very handy and more information can be found in the glossary or references.
-\subsubsection*{Must haves}
-\begin{itemize}
-	\item An \gls{agent} in GOAL must have an equivalent in Gamygdala.
-	\item The agent's goals in GOAL should also be present in Gamygdala for that agent. This means that if you define a goal for an agent in GOAL that the Gamygdala engine must also know of this. New goals must be communicated to Gamygdala.
-	\item It must be possible to define how good or bad a belief is for certain goals.
-	\item It must be possible to define relations between agents in GOAL.
-	\item It must be possible to have these relations also present in Gamygdala. Again, it must be the case that when a relation is created in GOAL, the Gamygdala engine knows about this relation. Otherwise no emotions between two agents can be calculated.
-	\item It must be possible to retrieve the emotional state of an agent in the same way as his beliefs.
-	\item It must be possible to setup an initial emotion of an agent.
-\end{itemize}
- 
-\subsubsection*{Should haves}
+The user requirements are fully listed in the product planning. Here a brief overview is introduced.\par
+The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions. Without a lot of work (it should be very easy) the programmer can define what makes the agent happy and what not. This can be done by setting a configuration file which is provided with a full documentation. Also he can check which emotions are present at a certain moment for a certain agent. This so that he can debug with the emotions and see what results certain settings can cause. Furthermore the programmer can query the emotions in GOAL so that he can program certain logical rules. For example, the programmer queries whether the agent is happy. If he is happy, then he should stop moving and chill out.\par Keep in mind that all the features and settings need to be documented very thoroughly so that programmers can add these emotional features very easily. The focus is on all this being easy. No complicated settings are needed at all (they can be used when demanded) to get emotional agents. All these features are an overview of the requirements this project should fulfill at the end. As mentioned before, a full list of the user requirements in the MoSCoW-form can be found in the product planning.
 
-\begin{itemize}
-	\item It should be possible to set the gain to a specific value.
-	\item It should be possible to set the decay to a specific function.
-	\item The  Gamygdala goals and its properties should be possible to change. This also includes the relations regarding beliefs and goals.
-	\item It should be possible to display the emotional states in the Simple IDE\cite{SimpleIDE} provided with GOAL for debugging.
-\end{itemize}
+\section{Overview of the developed and implemented software product}
+This section gives an overview of what we implemented in this project. 
 
+\subsection{Emotion configuration}
+The emotion configuration is the most important part of our implementation. It is an instance which holds all the gamygdala settings for a GOAL program. This EmotionConfig instance is used in the main GOAL cycle to determine if the emotions of the gamygdala agent should be updated.
 
-\subsubsection*{Could haves}
+\subsection{Parser}
+To be able to use the EmotionConfig in GOAL we had to write a parser for the EmotionConfig. The parsing for the goal and mas2g files in GOAL is done by using the parsing tool ANTLR. However, after we made up a syntax for the emotion configuration we thought it would be overly complicated to use ANTLR for this parser.\\
+Instead we used a simple implementation where the parser iterates over the lines and reads what setting is configured on that line. While parsing the EmotionConfig instance is updated according to the configured settings. For the goals, subgoals and relations a new object is created to store in the EmotionConfig. 
 
-\begin{itemize}
-	\item It could be possible to set a custom decay function.
-	\item It could be possible to change relations during runtime.
-	
-	\item It could be possible for an agent to reason about other agents emotional bases.
-\end{itemize}
+\subsection{Mentalstate}
+We had to implement changes to the mentalstate to be able to create a emotionbase for an agent. With this emotionbase the programmer using goal can easily see what emotions an agent currently has. Before prolog starts reasoning about beliefs it merges all beliefbases for an agent, with the emotionbase (which is a beliefbase) prolog also takes the emotions into account. This way the programmer can use the emotions just as he would use any other belief.
 
-\subsubsection*{Will not haves}
-\begin{itemize}
-	\item Eclipse plug-in
-\end{itemize}
+\subsection{SimpleIDE}
+We also changed the simpleIDE to make it able to edit the emotion configuration file. This includes changes in the filepanel to let the emo2g files show as a child of the mas2g file, parsing errors and a tab to be able to debug the emotion base. We unfortunately did not have the time to add syntax highlighting for the emotion configuration file or the emotionFile block in the mas2g file. 
 
 \clearpage
+
+\section{Reflection on the product and process from a software engineering perspective}
+In this section we will reflect in on our product and our process from a software engineering perspective. We will describe some of the problems we encountered and what we learned from them as well as how things could have been improved. We will start with a look at the product and after that we will look at the process.
+
+\subsection{Product}
+We started off with an existing code base (GOAL) on which we had to build. Since the goal was to make working with emotions in the GOAL environment intuitive and similar to working with the existing GOAL language we tried to keep true to the existing architecture. There were four main repositories in which we had to make changes, we will start with the Grammar repository.
+The Grammar repository is where we had to add code to give goal programmers the option to use emotions without knowing what exactly is happening while also giving options for programmers to tinker with the emotion settings that are available in the Gamygdala engine. To facilitate this we made a file with configurations. Since we found that it was difficult to use without any knowledge about the Gamydgala engine we made a document to help configuring this file.\par 
+In the Runtime repository the emotions had to be handled during runtime. This was done by connecting the adding and dropping of goals to the Gamygdala engine and by making sure that the emotion updates from the Gamydala engine were handled and added to a base similar to how percepts are updated every cycle. We implemented this by adding calls in the existing code to functions that we made to handle the emotions. For the structure of our functions we looked at how the existing code handled similar situations. After some initial time to get to know the existing code base we were able to implement the functionality we wanted in this repository relatively easily. However, when we tried to add to add an EmotionBase rather than use the PerceptBase to process the emotion we learned that this was a lot harder to do. \par 
+In the simpleIDE we wanted to be able to show the emotion from the EmotionBase similar to how percepts, messages, and beliefs are shown in their own tab. While we were able to do this the problem was not to make emotions visible in the EmotionBase but rather to get these changes functional in prolog and goal files. Which brings us to the changes in the Mentalstate repository.
+To create an EmotionBase we had to make changes to the Mentalstate repository. Since the functionality of the EmotionBase was going to be very similar to that of the PerceptBase the code that we added in this repository was very similar to the already existing code. This repository is also where we had to make sure that the emotion information was inserted into the prolog knowledge base, and while this seemed to be simple enough this is where we ran into troubles with the EmotionBase. \par 
+The difficulties with the addition of the EmotionBase mostly seemed to stem from issues with the dependencies between the repositories, and since the existing code base was pretty large this made it difficult to comprehend why it was not working as we intended. This showed that when writing software it is critical to maintain good testing coverage and integration testing, which the existing code lacked. We also learned that when you want to implement new functionality into an existing code base with some hurry, it is best to focus solely on functionality rather than trying to implement it in a “nice” way. Especially if you aren’t sure the code will still work with the “nicer” implementation.
+
+\subsection{Process}
+We made use of an incremental and iterative software development process. Every week we made a scrum plan and at the end of the week we reflected on this plan and made a new one. Initially the tasks we made were not very fitting for scrum, they were somewhat too generic and did not lead to something we could demo. We were able to use the feedback given by the TA and the problems we encountered in our weekly scrums to improve our scrum process over the course of the project. \par 
+We used git on the social platform Github in combination with TravisCI and Maven for our code versioning and continuous integration. The code bases we used were already on github and after cloning them to our own repositories we later had some troubles with the POM-files which were still referring to the original repositories. This problem came back several times, and we should probably have fixed this initially so any new issues would have been smaller and therefor easier to solve. \par 
+Another problem we encountered here was that the original code already failed when doing integration tests, this had to do with the tests trying to open windows which was not possible and to solve this we had to ignore a few tests. Regarding testing, the original code lacked good test coverage and integration testing. Due to the difficulty of integration testing the whole code base including our new code we decided to focus our testing efforts on making unit tests involving the code we added to the existing code. However, the lack of integration tests available often make it hard to find where errors originated.  \par 
+The original code also had a ton of Checkstyle errors and a lot of errors from the Maven Javadoc tool. We did not use Checkstyle because the errors were legion and if we used the Maven Javadoc tool the code would not compile. \par
+This was also the first project where we made use of a pull-based development model. Initially we made some mistakes by pulling changes in the master onto our own base instead of rebasing. We also learned to squash a lot of small changes into fewer more substantial commits to make it easier to track the changes that were made. 
+\clearpage
+
+\section{Interaction Design}
+This section will describe how we tried to validate the interaction of our users with our product. First there will be a description of the method used to gain feedback then the results from this will be discussed after which there will be an explanation of how we processed this feedback. Finally there will be a short discussion on what could be done to gain more valuable feedback.
+
+\subsection{Used Method}
+The idea used to gain the feedback from users on our product was to ask  the other group that is programming the virtual human in GOAL to complete a tutorial. This is a perfect group to do this with since they will have to work with our program to complete their own, they have experience with GOAL and know a little bit about gamygdala so they're a perfect example of our typical end user. They were asked to think out loud so that it was possible to identify any issues they were having. The recording of this session is attached to this report.
+
+Sadly enough only three people of the other group were available, they worked on the tutorial in one team. This felt like the best set up because that way they talk with each other about what they're doing.
+
+\subsection{Results}
+From the feedback gained it became obvious that some of our documentation was not yet clear enough. There were three identifiable issues with the documentation:
+
+\begin{itemize}
+	\item  Sometimes small details about how something worked were plain missing.
+	\item Sometimes information was not put in a central place. The users were for example not finding some details of how to use the emotion configuration, what they were looking for was mentioned somewhere in the documentation but due to it not being in one central place it was difficult to find.
+	
+	\item Some things were still plain wrong since they had been changed after the documentation was made.
+\end{itemize}
+
+Furthermore we identified one bug in the program when the users were working on the tutorial. 
+\subsection{Reaction}
+The details that were still missing in the documentation will be added to it and there will be updates to make sure that there are central parts of the documentation to find all relevant information about certain aspects of the program without having to go look at other parts of the documentation. We will also make sure that the wrong documentation is updated to be compliant with the current version of our program. The bug that was identified has since been fixed.
+
+\subsection{Commentary}
+The feedback we've gained is somewhat superficial, it was certainly useful feedback but sadly enough the other teams did not have enough time to use the program for an extended period of time and then have an interview with us. Pretty much all of the received feedback was feedback on the documentation, we feel like if they would have had more time to use our program that we would have received more valuable feedback on missing features and the usability of our implemented features.
+
+Only being able to do it with one group also makes the feedback more limited the product should be tested on some more groups to gain more diverse feedback.
+
+\section{Evaluation and failure analysis}
+This section is split up in two main subsections. The evaluation of the functional modules and the failure analysis. The evaluation is about how our functionalities were evaluated and in the failure analysis section a list of failures during the process is given.
+
+\subsection{Evaluation}
+To evaluate the functional modules this group used the tutorial and the HCI meeting with the other group. In this evaluation is was clear that the main functionalities that were needed were present and working. The other group successfully finished the tutorial and was able to implement their emotional agent with the functionalities provided by us. However, they did not have enough time to use the implementations extensively. This means that the feedback is not very in depth and thus mainly based on small bugs and lack of documentation. You can find the evaluation of the HCI in the dedicated section.
+
+\subsection{Failure analysis}
+In this section the major failures that our group encountered will be explained. These involve the problems, how they arose and how they have been fixed or why they were not easily fixed. As the definition of failure states, a failure occurs when the delivered service no longer complies with the specifications.(According to Laprie et al.)\cite{failure}
+
+\subsubsection*{Empty EmotionConfig}
+An empty EmotionConfig file caused some default values to be 0 instead their intended default values. The cause of this failure was mainly because of the way the parser used the singleton of the EmotionConfig. When the parser finds no lines an empty EmotionConfig was returned instead of an instance which would automatically set values and return that instance whenever you ask it. This failure was present for a long time but during the tutorial our group found out it was there. It can be defined as a failure since it does not comply with the specifications. An empty EmotionConfig should use the default settings. It was easy to solve this failure. More unittests would have caught this.
+
+\subsubsection*{Agent stuck}
+During the implementations of the achievements of goals a certain failure arose. 2 agents were ran with the same GOAL code, but for some reason one of the bots got stuck when performing actions. The problem was synchronization. The lack of integration tests from both GOAL programmers as this group caused this failure to get into the code. It was an easy problem to solve, but the fact that it was present was bad. Our group handled accordingly to this problem by making  more integration tests. 
+
+\subsubsection*{EmotionBase}
+Our group specified the requirements that the programmer in GOAL can look at an Emotionbase, just like the beliefbase, and see the emotion present for a certain agent. This feature was harder to implement that expected. Trying to mimic the belief or percept base was not as easy as it seemed. Eventually the emotions were added but could not be querried as intended. This failure was hard to fix and it is not fully working yet. 
+
+
+\section{Functionality Description}
+\subsection{Default functionality}
+The purpose of the integration of Gamygdala into the GOAL runtime is to provide all of Gamygdalas functionality continuously in the GOAL multi-agent system. This is possible because Gamygdala is, as GOAL obviously is, goal-oriented. This implementation was chosen so that developers do not need to code for every call to Gamygdala, but rather every update relevant to an agent's (specified) goals is evaluated by Gamygdala automatically. After evaluation, an agents updated emotional state is inserted into the emotion base, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment, similar to the belief and especially the percept base. Developers can use a large portion of the functionality of Gamygdala without having to write one line of extra code. It's just there doing its job. A developer can write agents that reason about their emotions just as if they were another percept from an environment, but in this isntance the environment is internal to the agent. Agents cannot read each others emotional states, only their own. They all have perfect poker faces. Developers can, of course, choose to let their agent notify other agents of their emotional state whenever they want through GOALs messaging system. This would be useful to do in many environments where agents should act human-like. People can choose to let each other know how they feel. Adding the option to do this automatically, with various levels of frequency and detail, could be a useful extension to this project if it is continued.
+
+There are default values for all the parameters available to Gamygdala and many other options relevant to the function of Gamygdala within GOAL, which can be modified by developers in the emotion configuration file.
+
+
+\subsection{Emotion configuration options}
+In this section an overview is given of the options in the emotion configuration file. A selection of these options will be examined more closely.For more detailed descriptions of every option and their grammar, please refer to the EmotionConfig Documentation in Appendix ???. 
+
+The emotion configuration file is optional. If it is not present in the same folder as the agent file, only default values will be used. If any options are not specified in the emotion configuration file, default values will be used.
+
+It contains settings for the default parameters given to gamygdala, such as default goal utility, default goal congruence and the speed of decay of emotions and a whitelist option There are sections for the definition of goals and their individual utility which overrides the default,the the definitions of subgoals, which include the unique congruence of the subgoal, and the relations between agents.
+
+\subsubsection{Gamygdala parameters}
+Default Goal Utility\\
+This value specifies how valuable achievement of a goal is for an agent. A positive value means achieving the goal is valuable and will cause positive emotions, a negative value implies achieving it will cause negative emotions. Normal setting is 1.\\
+\\
+Default achieved congruence\\
+This value controls the congruence of the event that an agent achieves a goal. In simple environments it is usually set to 1, so achieving a goal simply registers as a positive event in Gamygdala, but for more complex MASs it might prove necessary to lower the congruence setting for subgoals that contribute to a larger goal relative to their importance.\\
+\\
+Default dropped congruence\\
+The congruence of the event that a goal is dropped. Very similar to the achieved congruence, but with a different trigger. By default set to -1, so an agent will receive negative emotions from Gamygdala when a goal is dropped.\\
+\\
+Default belief likelihood\\
+This is set to 0 or 1 in most cases because in GOAL beliefs are true or not, for example when a goal is achieved or dropped, and there is no probability. Gamygdala can do calculations on beliefs with probabilities and requires a likelihood parameter with every update. This setting can be overridden for subgoals of which it is not certain whether they contribute to a larger goal.\\
+\\
+\subsubsection{Goal definitions}
+Goal types\\
+There are two types of goals that can be specified in this section of the configuration. Common goals that are shared by all agents with that goal, and individual goals that are only pursued by a singular agent. If a goal is common, reaching it will cause the emotional states of all agents with that goal to be evaluated. If it is individual, only one agent will update and the rest will remain unaffected. For every goal, a utility can be specified that overrides the default setting. Individual goals can be specified without an agent name parameter so the individual goal is given to all agents. Goals should be named the same as they are in GOAL.\\
+\\
+Subgoal definition\\
+In this section of the config file the congruence of goals towards other goals can be specified, creating a tree-like structure of goals that contribute toward each other. The likelihood that the achievement of a subgoal will contribute toward the larger goal can also be changed.
+\subsubsection{Relation definition}
+Here the relations between agents in a MAS can be specified. A positive number equals a good relationship, zero is indifference and a negative number means animosity. When an agents emotional state is updated, all agents it has a relation with update their emotional state proportional to the change and the strength and sign of the relationship. The names of agents given must be the same as their names in GOAL.
+
 
 \section{Outlook}
 This section gives a recommendation as to what possible improvements there still are for future expansion of the project.
@@ -118,6 +204,23 @@ Finally, in terms of code quality there can always be improvements of course. So
 \clearpage
 \printglossaries
 
+\begin{appendices}
+	\section{HCI}
+	In this appendix you can find a full report on the HCI meeting and all things that happened. Also with this appendix an audio file with a length of 1h16min is included which is a full recording of the tutorial. Here are the notes our group took during the introduction of our implementations.\\
+	\\
+	"From the start it seems that importing the project is an uncertain problem. For 2 of the 3 members of the group is it not clear what to do with it. One knows what to do and is helping. Cloning from Github directly into Eclipse seems to do weird things. Somehow the project is imported in that way but the folders are not known as source folders thus running Java code is not working. Now they are trying to clone to the harddisk and then import it into Eclipse. This seems to work. Now they mention that converting it to a maven project is not an option when you right click. It is under the tab configuration which is not mentioned clearly in the guide it seems. Now they tell the same thing for maven install. It is under the tab Run As which is somehow unclear for the members of the group. One of them is still in the goal perspective and this is bugging Eclipse. Bernd is helping them now and telling they should better be in the Java perspective instead of the GOAL perspective.\par 
+	They have come to the point of running an agent with an empty emotionConfig configuration file. They are running the agent and they look at the current feelings of the agent and say that nothing is present. No emotions are given. They take a look at the mas2g file but it seems to be set correctly. They think it is a bug. It is a bug indeed. We tell them that we will fix this because it should give emotions when an empty file is set. Now they are trying out the whitelist option our group implemented. The information is not that clear. They are arguing what the intention is and what it does. They are not reading the documentation very thoroughly. They have gotten it working and now they ask us how you can make actions alter emotions. They can do this by adding goals to do the actions and then when the action is performed a goal is achieved and an emotion can be given. They are happy with this answer and think it is a good solution. They wonder why emotions like distress are coming. They did not read through all the documentation saying that dropping goals also cast emotions. They are getting a version working and they are excited that their agents get emotions. They wonder now what the isIncremental does. They can find this in the Gamygdala paper but it is a bit unclear that the last parameter(boolean) is about this setting. We will change this. \par Now they have a version working with subgoals. They tried to run with a goal with a congruence of 3. This cannot happen since the congruence must be between -1 and 1. It is mentioned at a certain section but not in the section of the subgoals. Now they have finished the single bot tasks and will see if they can get two bots working together.\par It seems unclear they have to change the masfile to run the second agent with the same GOAL code. After a while our group helped them because this is just a little change in the commands in the mas2g files. Now they want to query an emotion and alter an action. They try to use the gam() predicate but it is not correct. They should use the emo() predicate. This is being mentioned incorrectly in the tutorial. They tell us they will try to let one agent chill out in the Dropzone when he is happy enough. They get this working after a while because first they let him perform an action but the logical rule was not high enough in the calling order so other logical rules are getting called before that one. This is something you should think about when programming in GOAL. They set the relations which works the first time they try it. They reflect on what the did and are done."\\
+	\\
+	Together with these notes the full audio file can be found here:
+	reference
+\end{appendices}
+
+
+\clearpage
+
+\printglossaries
+
+\clearpage
 
 \begin{thebibliography}{9}
 	
@@ -140,6 +243,11 @@ Finally, in terms of code quality there can always be improvements of course. So
 	\bibitem{SimpleIDE}
 	Simple IDE
 	\url{https://github.com/goalhub/simpleIDE }
+	
+	\bibitem{failure}
+	J. C. Laprie (Ed.).\\ 
+	Dependability: Basic Concepts and Terminology. \\
+	Springer-Verlag, Wein, New York, 1992.\\
 	
 	
 \end{thebibliography}
