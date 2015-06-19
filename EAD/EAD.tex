@@ -138,7 +138,7 @@ Throughout the project we have updated this list of changed packages which resul
 The packages from the runtime repository: \\ \\
 \textbf{goal.core.mentalstate}: Here we extended functionality so goals that are added to agents are also added to the Gamygdala engine. When goals are achieved or dropped this is also send to the Gamygdala engine. \\
 \textbf{goal.core.agent}: This package was modified so that each time an agent is created it is added to Gamygdala if it does not yet exist in Gamygdala. \\
-\textbf{goal.core.runtime.service.agent}: This package is where percepts are handled and where we insert the emotions rendered by the gamygdala engine into their own EmotionBase, which is similar to the PerceptBase in the aspects that it will be flushed and repopulated every cycle and the agent should be able to reason about emotions just like reasoning about percepts. \\
+\textbf{goal.core.runtime.service.agent}: This package is where percepts are handled and where we insert the emotions rendered by the gamygdala engine into the PerceptBase, where it will be flushed and repopulated every cycle and the agent should be able to reason about emotions just like reasoning about other percepts. \\
 \textbf{goal.tools}: This packages contains classes needed to run mas2g files. These were adjusted to parse our emotion configuration file before the agents start running so that this configuration is available to Gamygdala.
 
 
@@ -151,8 +151,6 @@ The packages from the grammar repository: \\ \\
 \\
 In this package we also modified the ANTRL .g4 files. These files define how the .mas2g and .goal should be parsed these had to be modified to accommodate our emotion configuration.
 \newpage
-\subsubsection{MentalState}
-This repository needs to be modified to add the EmotionBase to the list of basetypes and will need to be extended so that prolog can do its calculations with these. GOAL has multiple bases for knowledge and beliefs and percepts (and now emotion) whereas prolog only has one knowledge base, which means all knowledge, beliefs, percepts and emotions need to be inserted into the same base before it is handed down to prolog as one knowledge base. \\
 
 \subsubsection{SimpleIDE}
 We have chosen to modify the SimpleIDE, as this would be slightly less work than modifying the Eclipse plugin, in our estimation adding GUI elements to it is fairly straightforward. We will need to add a tab like the one for percepts which displays the emotions an agent is feeling.
