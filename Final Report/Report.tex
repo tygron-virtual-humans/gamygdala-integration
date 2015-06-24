@@ -13,6 +13,14 @@
 	description={An emotional engine created to simulate emotions for virtual identities\cite{GAMYGDALA}.}
 }
 
+
+\newglossaryentry{SCRUM}
+{
+	name=SCRUM,
+	description={\cite{SCRUM} is a method used for the organization and work flow of software development projects. This method fall under the agile methods.}
+}
+
+
 \newglossaryentry{GOAL}
 {
 	name=GOAL,
@@ -58,15 +66,15 @@
 \clearpage
 
 \section{Introduction}
-In this context project four groups consisting of twenty students in total have developed a set of virtual human agents for the Tygron City Planner serious game. TO accomplish this effort, tasks have been divided between these groups. One group developed the link between the GOAL\cite{GOAL} environment and the Tygron game, a group worked on native integration of \gls{GAMYGDALA}\cite{GAMYGDALA} in GOAL, another developed a plugin version of GAMYGDALA that can be used in GOAL and the fourth group developed the agent that uses GAMYGDALA to make emotional decisions and uses the link to interact with the Tygron game. We are the group responsible for GAMYGDALA's integration into GOAL. 
+In this context project four groups consisting of twenty students in total have developed a set of virtual human agents for the Tygron City Planner serious game. To accomplish this effort, tasks have been divided between these groups. One group developed the link between the GOAL\cite{GOAL} environment and the Tygron game, a group worked on native integration of \gls{GAMYGDALA}\cite{GAMYGDALA} in GOAL, another developed a plug-in version of GAMYGDALA that can be used in GOAL and the fourth group developed the agent that uses GAMYGDALA to make emotional decisions and uses the link to interact with the Tygron game. We are the group responsible for GAMYGDALA's integration into GOAL. 
 \subsection{Problem description}
-The research problem is stated by Tygron\cite{Tygron}, a software company located in the Netherlands. They provide local authorities with a game in which their city is simulated. While playing this game government officials and private parties can more easily visualise and therefore better discuss urban planning projects. By playing the game they gain an understanding of different stakeholders needs and responsibilities. Tygron requested us to look into the possibility of replacing a number of human players with an Artificial Intelligence solution. Since the players of this game mostly are influenced in their interactions by emotion, the AI should feel and react to emotions as well.\par 
-The input of a real company means that to us, this project was quite exciting. That our code may one day be used by anyone other than ourselves is a better prospect for reuse than we are used to from other projects. The specific task of this subgroup is to provide the group that is responsible for the agents with an integration of GAMYGDALA in GOAL. It is not our task to implement new funcitonality, but rather make GAMYGDALAs functionality available in GOAL.  With this added functionality programmers such as the other groups can, when creating virtual humans, let GAMYGDALA give their agents emotions and can base decisions off of those.\par 
-In this report we first give an overview of the implemented software product. Consequently. a reflection on the product and process from a software engineering perspective. This is followed by a detailed list of implemented features. A section on the Human Computer Interaction analysis will then explain how users interact with the product. Finally an outlook will list some important findings and potential future improvements.
+The research problem is stated by Tygron\cite{Tygron}, a software company located in the Netherlands. They provide local authorities with a game in which their city is simulated. While playing this game government officials and private parties can more easily visualize and therefore better discuss urban planning projects. By playing the game they gain an understanding of different stakeholders needs and responsibilities. Tygron requested us to look into the possibility of replacing a number of human players with an Artificial Intelligence solution. Since the players of this game mostly are influenced in their interactions by emotion, the AI should feel and react to emotions as well.\par 
+The input of a real company means that to us, this project was quite exciting. That our code may one day be used by anyone other than ourselves is a better prospect for reuse than we are used to from other projects. The specific task of this subgroup is to provide the group that is responsible for the agents with an integration of GAMYGDALA in GOAL. It is not our task to implement new functionality, but rather make GAMYGDALAs functionality available in GOAL.  With this added functionality programmers such as the other groups can, when creating virtual humans, let GAMYGDALA give their agents emotions and can base decisions off of those.\par 
+In this report we first give an overview of the implemented software product. Consequently, a reflection on the product and process from a software engineering perspective. This is followed by a detailed list of implemented features. A section on the Human Computer Interaction analysis will then explain how users interact with the product. Finally an outlook will list some important findings and potential future improvements.
 
 \subsection{User requirements}
-The user requirements are fully listed in the product planning. These features are an overview of the requirements this project should fulfill. Please refer to the product planning for a complete list of the user requirements in the \gls{MoSCoW}-form.\cite{MosCoW} \par
-The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions.In a few rules, a developer can define which goals cause an agent positive and negative emotions, and how strong these should be. This is achieved through editing a configuration file which is provided with documentation. To make things easier, a developers should be able to see in real-time which emotions are present for a certain agent in the development enviroment. With that functionality, the developer can debug the emotions and his agents response to those and see how settings impact emotions. Furthermore the programmer can query the emotions in GOAL so that he can code responses in logical rules in his agent. \par All the features and settings need to be documented very thoroughly so that programmers can learn to use the basics of the GAMYGDALA integration in a few minutes. No tweaking of complicated settings is demanded of a novice user, but they are present for the advanced emotion-developer.
+The user requirements are fully listed in the product planning \cite{productplan}. These features are an overview of the requirements this project should fulfill. Please refer to the product planning for a complete list of the user requirements in the \gls{MoSCoW}-form.\cite{MoSCoW}\par
+The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions.In a few rules, a developer can define which goals cause an agent positive and negative emotions, and how strong these should be. This is achieved through editing a configuration file which is provided with documentation. To make things easier, a developers should be able to see in real-time which emotions are present for a certain agent in the development environment. With that functionality, the developer can debug the emotions and his agents response to those and see how settings impact emotions. Furthermore the programmer can query the emotions in GOAL so that he can code responses in logical rules in his agent. \par All the features and settings need to be documented very thoroughly so that programmers can learn to use the basics of the GAMYGDALA integration in a few minutes. No tweaking of complicated settings is demanded of a novice user, but they are present for the advanced emotion-developer.
 
 
 \section{Overview of the developed and implemented software product}
@@ -256,6 +264,14 @@ Finally, in terms of code quality there can always be improvements of course. So
 	\bibitem{SimpleIDE}
 	Simple IDE
 	\url{https://github.com/goalhub/simpleIDE }
+	
+	\bibitem{productplan}
+	Product plan: GROUP 3
+	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Product\%20plan/Product-plan.pdf}
+	
+	\bibitem{SCRUM}
+	SCRUM method
+	\url{https://nl.wikipedia.org/wiki/Scrum_(softwareontwikkelmethode)}
 	
 	\bibitem{failure}
 	J. C. Laprie (Ed.).\\ 
