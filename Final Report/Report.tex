@@ -7,24 +7,22 @@
 \usepackage[toc,page]{appendix}
 \makeglossaries
 
+\newglossaryentry{SCRUM}
+{
+	name=SCRUM,
+	description={\cite{SCRUM} is a method used for the organization and work flow of software development projects. This method fall under the agile 		methods.}
+}
+
 \newglossaryentry{GAMYGDALA}
 {
 	name=GAMYGDALA,
 	description={An emotional engine created to simulate emotions for virtual identities\cite{GAMYGDALA}.}
 }
 
-
-\newglossaryentry{SCRUM}
-{
-	name=SCRUM,
-	description={\cite{SCRUM} is a method used for the organization and work flow of software development projects. This method fall under the agile methods.}
-}
-
-
 \newglossaryentry{GOAL}
 {
 	name=GOAL,
-	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}.}
+	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}\cite{GOAL Env}
 }
 
 \newglossaryentry{agent}
@@ -71,14 +69,13 @@ In this context project four groups consisting of twenty students in total have 
 The research problem is stated by Tygron\cite{Tygron}, a software company located in the Netherlands. They provide local authorities with a game in which their city is simulated. While playing this game government officials and private parties can more easily visualize and therefore better discuss urban planning projects. By playing the game they gain an understanding of different stakeholders needs and responsibilities. Tygron requested us to look into the possibility of replacing a number of human players with an Artificial Intelligence solution. Since the players of this game mostly are influenced in their interactions by emotion, the AI should feel and react to emotions as well.\par 
 The input of a real company means that to us, this project was quite exciting. That our code may one day be used by anyone other than ourselves is a better prospect for reuse than we are used to from other projects. The specific task of this subgroup is to provide the group that is responsible for the agents with an integration of GAMYGDALA in GOAL. It is not our task to implement new functionality, but rather make GAMYGDALAs functionality available in GOAL.  With this added functionality programmers such as the other groups can, when creating virtual humans, let GAMYGDALA give their agents emotions and can base decisions off of those.\par 
 In this report we first give an overview of the implemented software product. Consequently, a reflection on the product and process from a software engineering perspective. This is followed by a detailed list of implemented features. A section on the Human Computer Interaction analysis will then explain how users interact with the product. Finally an outlook will list some important findings and potential future improvements.
-
 \subsection{User requirements}
 The user requirements are fully listed in the product planning \cite{productplan}. These features are an overview of the requirements this project should fulfill. Please refer to the product planning for a complete list of the user requirements in the \gls{MoSCoW}-form.\cite{MoSCoW}\par
 The main goal of the project is giving a programmer in GOAL the ability to provide the agents he is creating with emotions. This means that the agents have to express emotions, but can also act based on these emotions.In a few rules, a developer can define which goals cause an agent positive and negative emotions, and how strong these should be. This is achieved through editing a configuration file which is provided with documentation. To make things easier, a developers should be able to see in real-time which emotions are present for a certain agent in the development environment. With that functionality, the developer can debug the emotions and his agents response to those and see how settings impact emotions. Furthermore the programmer can query the emotions in GOAL so that he can code responses in logical rules in his agent. \par All the features and settings need to be documented very thoroughly so that programmers can learn to use the basics of the GAMYGDALA integration in a few minutes. No tweaking of complicated settings is demanded of a novice user, but they are present for the advanced emotion-developer.
 
 
 \section{Overview of the developed and implemented software product}
-This section contains short descriptions of each of the parts of GOAL that we modified or extended. In short, we create a GAMYGDALA instance in the GOAL runtime, read settings from a configuration file for emotions, render input for GAMYGDALA based on these settings and the real-time input regarding goals from the GOAL environment, and insert GAMYGDALA's output into the agents database.
+This section contains short descriptions of each of the parts of GOAL\cite{GOAL Env} that we modified or extended. In short, we create a GAMYGDALA instance in the GOAL runtime, read settings from a configuration file for emotions, render input for GAMYGDALA based on these settings and the real-time input regarding goals from the GOAL environment, and insert GAMYGDALA's output into the agents database.
 
 \subsection{Emotion configuration}
 The emotion configuration is the most extensive part of our implementation. It is a file which holds all the GAMYGDALA settings for a GOAL program. Its content is examined in more detail in the emotionconfig documentation document.
@@ -88,10 +85,10 @@ To be able to use the EmotionConfig in GOAL we had to write a parser for the Emo
 Instead we used a simple implementation where the parser iterates over the lines and reads what settings are configured on each line, comma-seperated, e.g. one line would read \"WHITELIST, 1\". While parsing the EmotionConfig instance is updated according to the configured settings. For the goals, subgoals and relations a new object is created to store in the EmotionConfig. 
 
 \subsection{Mentalstate}
-We had to implement changes to the mentalstate to be able to create a emotionbase for an agent. With this emotionbase the programmer using goal can easily see what emotions an agent currently has. Prolog can only reason about one database at a time, so beforeit starts a reasoning cycle, all beliefbases for an agent are merged, including the base for its emotions. At the time of writing this report, the emotionbase was functional, but the information in it was not inserted correctly into the belief base before prolog queries are executed. 
+We had to implement changes to the mentalstate to be able to create a emotionbase for an agent. With this emotionbase the programmer using goal can easily see what emotions an agent currently has. Prolog can only reason about one database at a time, so beforeit starts a reasoning cycle, all belief bases for an agent are merged, including the base for its emotions. At the time of writing this report, the emotionbase was functional, but the information in it was not inserted correctly into the belief base before prolog queries are executed. 
 
 \subsection{SimpleIDE}
-We also changed the simpleIDE to make it able to edit the emotion configuration file. This includes changes in the filepanel to let the emo2g files show as a child of the mas2g file, parsing errors and a tab to be able to debug the emotion base. We unfortunately did not have the time to add syntax highlighting for the emotion configuration file or the emotionFile block in the mas2g file. 
+We ahave modified the simpleIDE so GOAL developers can edit the emotion configuration file in this environment. This includes changes in the filepanel to let the emotionconfig files show as a component of the multi-agent-system\cite{GOAL Env}, new exceptions for potential errors in this file and a tab in the gui in which emotions can be displayed to enable developers to debug the emotion base. We unfortunately did not have the time to add syntax highlighting for the emotion configuration file. 
 
 \clearpage
 
@@ -99,14 +96,14 @@ We also changed the simpleIDE to make it able to edit the emotion configuration 
 In this section we will reflect in on our product and our process from a software engineering perspective. We will describe some of the problems we encountered and what we learned from them as well as how things could have been improved. We will start with a look at the product and after that we will look at the process.
 
 \subsection{Product}
-We started off with an existing code base (GOAL\cite{GOAL}) on which we had to build. Since the goal was integrating GAMYGDALAs emotions in the GOAL environment and making sure working in this version of GOAL is similar to working with the existing GOAL language, we tried to keep true to the existing architecture. There were four main repositories in which we had to make changes. We will start with the Grammar repository.\par
+We started off with the existing code base of GOAL\cite{GOAL} on which we had to build. Since our goal was the integration of GAMYGDALAs emotions in the GOAL environment\cite{GOAL Env} we wanted to ensure that working in this version of GOAL remains similar to working with the existing GOAL IDE and tried to stay true to the existing architecture. There were four main repositories in which we had to make changes. We will start with the Grammar repository.\par
 Grammar\\
-The Grammar repository is where we had to add code to give GOAL programmers the option to give an agent emotions without editing any settings while also giving options for programmers to tinker with the emotion settings that are available in the GAMYGDALA engine. To facilitate this we made a file with configurations. Since we found that it was difficult to use without any knowledge about the Gamydgala engine we wrote an EmotionConfig document to help developers find their way through this file. We have included this document in the appendices. \par
+The Grammar repository is where we had to add code to give goal programmers the option to give an agent emotions without editing any settings while also giving options for programmers to tinker with the emotion settings that are available in the GAMYGDALA engine. To facilitate this we developed a configuration file for our added functionality. Since we found that it was difficult to use without any knowledge about the Gamydgala engine we wrote an EmotionConfig document to help developers find their way through this file. We have included this document in the appendices. \par
 Runtime\\ 
 In the Runtime repository the emotions had to be handled during runtime. This was done by connecting the adding and dropping of goals in GOAL to the GAMYGDALA engine and by making sure that the emotion updates from the Gamydala engine were handled and added to a base similar to how percepts are updated every cycle. We implemented this by adding calls in the existing code to functions that we made to handle the emotions. For the structure of our functions we looked at how the existing code handled similar situations. After some initial time to get to know the existing code base we were able to implement the functionality we wanted in this repository relatively easily. However, when we tried to add a seperate EmotionBase for emotions rather than inserting them into the PerceptBase we ran into some trouble at the mentalstate level. \par 
 MentalState\\
-To create an EmotionBase we had to make changes to the Mentalstate repository. Since the EmotionBase has a function comparable to that of the PerceptBase, the code that we added in this repository was based on the code of the PerceptBase. This repository is also where we had to make sure that the emotion information was inserted into the prolog knowledge base, and while this seemed to be simple enough this is where we ran into troubles with the EmotionBase. \par 
-The difficulties with the addition of the EmotionBase mostly seemed to stem from issues with the dependencies between the repositories and the complexity of the classes managing the interface between GOAL and prolog. Because the existing code base was large and marginally tested and comments did not explain every quirk or error this made it difficult to comprehend why our addition was not working as we intended. This showed that when writing software it is critical to maintain good testing coverage and integration testing, which the existing code lacked. We also learned that when you want to implement new functionality into an existing code base with some hurry, it is best to focus solely on functionality and following conventions already put into practice in the existing code rather than trying to implement by the book. An obvious downside of this method is that we had no test structure to fall back on when for example the emotionbase did not function as we expected. We believe this trade-off for functionality was worth it, as we do now have all GAMYGDALAs functionality implemented with not a lot of time to spare.\par
+To create an emotion base we had to make changes to the mentalstate repository. Since the emotion base was supposed to be very similar to the percept base, the code that we added in this repository was based on the existing code for the percept base. This repository is also where we had to make sure that the emotion information was inserted into the prolog knowledge base, and while this seemed to be simple enough this is where we ran into trouble. \par 
+The difficulties with the addition of the emotion base mostly seemed to stem from issues with the dependencies between the repositories and the complexity of the classes managing the interface between GOAL and prolog. Because the existing code base was large and marginally tested and comments did not explain every quirk or error this made it difficult to comprehend why our addition was not working as we intended. This showed that when writing software it is critical to maintain good testing coverage and integration testing, which the existing code lacked. We also learned that when you want to implement new functionality into an existing code base with some hurry, it is best to focus solely on functionality and following conventions already put into practice in the existing code rather than trying to implement by the book. An obvious downside of this method is that we had no test structure to fall back on when for example the emotionbase did not function as we expected. We believe this trade-off for functionality was worth it, as we do now have all GAMYGDALAs functionality implemented with not a lot of time to spare.\par
 SimpleIDE\\
 In the simpleIDE we wanted to be able to show the emotions from the EmotionBase similar to how percepts, messages, and beliefs are shown in their own tab. We were able to add the emotion tab, where facts inserted into the emotionbase are displayed, but these facts are not visible to an agent at prolog level, so we cannot show this function in our release version, where emotion is added to the percepts.
 
@@ -143,7 +140,7 @@ The details that were still missing in the documentation have been added and we 
 \subsection{Commentary}
 The feedback we were given was somewhat superficial, it was certainly useful feedback, but sadly the other teams did not have enough time to use the program for an extended period of time and then have an interview with us. Pretty much all of the received feedback was feedback on the documentation, we feel that if they would have spent more time using our program that we would have received more valuable feedback on missing features and the usability of our implemented features. However, we understand they could not, given the time constraints imposed by project deadlines. The agent group still had work to do on implementing their strategy. We had initially negotiated to have this session a few days earlier while they still had more time.
 
-Only having one run with three people also renders the feedback more limited. We had hoped to have a session with all five members of the other group. We should have scheduled another session with other users of the GOAL environment to gain more diverse feedback.
+Only having one run with three people also renders the feedback more limited. We had hoped to have a session with all five members of the other group. We should have scheduled another session with other users of the GOAL environment\cite{GOAL Env} to gain more diverse feedback.
 
 \section{Evaluation and failure analysis}
 This section is split up in two main subsections. The evaluation of the functional modules and the failure analysis. The evaluation is about how our functionalities were evaluated and in the failure analysis section a list of failures during the process is given.
@@ -167,10 +164,13 @@ Emotions are inserted into the percept base in our final release, so they are di
 
 \section{Functionality Description}
 \subsection{Default functionality}
-The purpose of the integration of GAMYGDALA into the GOAL runtime is to provide all of GAMYGDALAs functionality continuously in the GOAL multi-agent system. This is possible because GAMYGDALA is like GOAL in the aspect that it is goal-oriented. This implementation was chosen so that developers do not need to code for every call to GAMYGDALA, but rather every update relevant to an agent's (specified) goals is evaluated by GAMYGDALA automatically. This is a notable distinction from the GAMYGDALA plugin developed by group four. After evaluation, an agents updated emotional state is inserted into the perceptbase, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment. Developers can use a large portion of the functionality of GAMYGDALA without having to write one line of extra code. A developer can write agents that reason about their emotions just as if they were another percept from an environment.
+The purpose of the integration of GAMYGDALA\cite{GAMYGDALA} into the GOAL runtime is to provide all of GAMYGDALAs functionality continuously in the GOAL multi-agent system. This is possible because GAMYGDALA is like GOAL in the aspect that it is goal-oriented. This implementation was chosen so that developers do not need to code for every call to GAMYGDALA, but rather every update relevant to an agent's (specified) goals is evaluated by GAMYGDALA automatically. This is a notable distinction from the GAMYGDALA plugin developed by group four. After evaluation, an agents updated emotional state is inserted into the perceptbase, which can be queried by GOAL and is displayed in the GUI of the SimpleIDE GOAL development environment. Developers can use a large portion of the functionality of GAMYGDALA without having to write one line of extra code. A developer can write agents that reason about their emotions just as if they were another percept from an environment.
 
 In the release version of our project, emotions are instered as percepts into the agents mental state in the following syntax: percept(emo(type, intensity)).
 
+GAMYGDALA takes several parameters for every goal and event to help determine an appropriate emotional reaction. For example, for every goal a goal utility has to be defined, which determines how important the goal is to an agent and how large of an emotional reaction an agent should produce when progress is made towards or away from the goal. Every event has a congruency towards a goal which determines how much the event contributes toward said goal, and a likelihood which controls the probability that the event causes progress toward a goal. For more details on the original implementation of these parameters, please refer to the GAMYGDALA paper by Propescu et al.\cite{GAMYGDALA}
+GOAL\cite{GOAL Env}, however, does not keep track of congruence of goals and is not probabilistic. To receive useful results from GAMYGDALA, we have had to solve these incompatibilities. The likelihood problem was easily solved by setting the likelihood to 1 by default, because in GOAL all knowledge is certain, and this value corresponds to that fact. Solving the congruence was a bit more complicated; this is explained in the goal definition section below.
+GAMYGDALA also has two types of goals: maintenance and achievement goals. If an achievement goal is achieved, any further progress toward this goal will not cause new emotions. With maintenance goals, progress toward a goal will always cause emotions regardless of the achievement state of the goal. GOAL only has achievement goals, so we chose to exclude the option for maintenance goals in this release. If a future version of GOAL were to support maintenance goals which are not removed when they are achieved, including this option could be worthwile.\\
 There are default values for all the parameters available to GAMYGDALA and many other options relevant to the function of GAMYGDALA within GOAL, which can be modified by developers in the emotion configuration file.
 
 
@@ -193,13 +193,15 @@ The congruence of the event that a goal is dropped. Very similar to the achieved
 \\
 Default belief likelihood\\
 This is set to 1 in most cases because in GOAL beliefs are true or not, for example when a goal is achieved or dropped, and there is no probability. GAMYGDALA can do calculations on beliefs with probabilities and requires a likelihood parameter with every update. This setting can be overridden for subgoals of which it is not certain whether they contribute to a larger goal.\\
+isIncremental\\
+When this option is set to true, emotions will continue to be changed if an event is evaluated more than one time. If it is false,an event causes a certain emotion, and a second or later attempt at evaluation will cause exactly the same emotions.
 \\
 \subsubsection*{Goal definitions}
 Goal types\\
 There are two types of goals that can be specified in this section of the configuration. Common goals that are shared by all agents with that goal, and individual goals that are only pursued by a singular agent. If a goal is common, reaching it will cause the emotional states of all agents with that goal to be evaluated. If it is individual, only one agent will update and the rest will remain unaffected. For every goal, a utility can be specified that overrides the default setting. Individual goals can be specified without an agent name parameter so the individual goal is given to all agents. Goals should be named the same as they are in GOAL.\\
 \\
 Subgoal definition\\
-In this section of the config file the congruence of goals towards other goals can be specified, creating a tree-like structure of goals that contribute toward each other. The likelihood that the achievement of a subgoal will contribute toward the larger goal can also be changed.
+In this section of the config file the congruence of goals towards other goals can be specified. A developer can create a tree-like structure of goals where achieving one goal contributes proportional to its congruency toward another goal. The likelihood that the achievement of a subgoal will contribute toward the larger goal can also be changed. Subgoals do not require a utility value, because their utility is proportional to that of the main goal they contribute to.\\e.g. When a subgoal with a congruence of 0.5 and a likelihood of 1 is achieved, the agent receives updated emotions relative to 0.5 times 1 times the utility of the larger goal the subgoal is congruent to. If a developer creates subgoals in the config for events that contribute toward the achievement of a goal in GOAL, the emotional state of their agent will be updated whenever those events occur.
 \subsubsection*{Relation definition}
 Here the relations between agents in a MAS can be specified. A positive number equals a good relationship, zero is indifference and a negative number means animosity. When an agents emotional state is updated, all agents it has a relation with update their emotional state proportional to the change and the strength and sign of the relationship. The names of agents given must be the same as their names in GOAL.
 
@@ -244,7 +246,11 @@ Finally, in terms of code quality there can always be improvements of course. So
 \clearpage
 
 \begin{thebibliography}{9}
-	
+	\bibitem{GOAL Env}
+	Koen V. Hindriks, Delft University of technology\\
+	Programming rational agents in GOAL\\
+	R.H. Bordini et al. (eds.), Multi-Agent Programming , DOI 10.1007/978-0-387-89299-3_4, © Springer Science + Business Media, LLC 2009 \\
+
 	\bibitem{GOAL}
 	GOAL programming language
 	\url{http://ii.tudelft.nl/trac/goal}
@@ -265,6 +271,16 @@ Finally, in terms of code quality there can always be improvements of course. So
 	Simple IDE
 	\url{https://github.com/goalhub/simpleIDE }
 	
+	\bibitem{failure}
+	J. C. Laprie (Ed.).\\ 
+	Dependability: Basic Concepts and Terminology. \\
+	Springer-Verlag, Wein, New York, 1992.\\
+
+	\bibitem{GAMYGDALA paper}
+	Propescu, Broekens, Someren\\
+	GAMYGDALA: an Emotion Engine for Games\\
+	JOURNAL OF IEEE TRANSACTIONS ON AFFECTIVE COMPUTING, 2014 vol. 5\\
+
 	\bibitem{productplan}
 	Product plan: GROUP 3
 	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Product\%20plan/Product-plan.pdf}
@@ -288,16 +304,6 @@ Finally, in terms of code quality there can always be improvements of course. So
 	\bibitem{Maven}
 	Maven
 	\url{https://maven.apache.org }
-	
-	\bibitem{failure}
-	J. C. Laprie (Ed.).\\ 
-	Dependability: Basic Concepts and Terminology. \\
-	Springer-Verlag, Wein, New York, 1992.\\
-
-	\bibitem{GAMYGDALA paper}
-	Propescu, Broekens, Someren
-	GAMYGDALA: an Emotion Engine for Games
-	JOURNAL OF IEEE TRANSACTIONS ON AFFECTIVE COMPUTING, 2014 vol. 5
 	
 	
 \end{thebibliography}
