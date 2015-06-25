@@ -10,7 +10,7 @@
 \newglossaryentry{SCRUM}
 {
 	name=SCRUM,
-	description={\cite{SCRUM} is a method used for the organization and work flow of software development projects. This method fall under the agile 		methods.}
+	description={SCRUM\cite{SCRUM} is a method used for the organization and work flow of software development projects. This method fall under the agile methods.}
 }
 
 \newglossaryentry{GAMYGDALA}
@@ -22,7 +22,7 @@
 \newglossaryentry{GOAL}
 {
 	name=GOAL,
-	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}\cite{GOAL Env}
+	description={A programming language developed at TU Delft for creating Virtual Humans\cite{GOAL}\cite{GOAL Env}}
 }
 
 \newglossaryentry{agent}
@@ -40,7 +40,7 @@
 \newglossaryentry{TravisCI}
 {
 	name=TravisCI,
-	description={A continuous integration service that runs test suites when changed are committed to github}
+	description={A continuous integration service that runs test suites when changed are committed to Github.}
 }
 
 
@@ -64,7 +64,7 @@
 \clearpage
 
 \section{Introduction}
-In this context project four groups consisting of twenty students in total have developed a set of virtual human agents for the Tygron City Planner serious game. To accomplish this effort, tasks have been divided between these groups. One group developed the link between the GOAL\cite{GOAL} environment and the Tygron game, a group worked on native integration of \gls{GAMYGDALA}\cite{GAMYGDALA} in GOAL, another developed a plug-in version of GAMYGDALA that can be used in GOAL and the fourth group developed the agent that uses GAMYGDALA to make emotional decisions and uses the link to interact with the Tygron game. We are the group responsible for GAMYGDALA's integration into GOAL. 
+In this context project four groups consisting of twenty students in total have developed a set of virtual human \gls{agent}s for the Tygron\cite{Tygron} City Planner serious game. To accomplish this effort, tasks have been divided between these groups. One group developed the link between the \gls{GOAL}\cite{GOAL} environment and the Tygron game, a group worked on native integration of \gls{GAMYGDALA}\cite{GAMYGDALA} in GOAL, another developed a plug-in version of GAMYGDALA that can be used in GOAL and the fourth group developed the \gls{agent} that uses GAMYGDALA to make emotional decisions and uses the link to interact with the Tygron game. We are the group responsible for GAMYGDALA's integration into GOAL. 
 \subsection{Problem description}
 The research problem is stated by Tygron\cite{Tygron}, a software company located in the Netherlands. They provide local authorities with a game in which their city is simulated. While playing this game government officials and private parties can more easily visualize and therefore better discuss urban planning projects. By playing the game they gain an understanding of different stakeholders needs and responsibilities. Tygron requested us to look into the possibility of replacing a number of human players with an Artificial Intelligence solution. Since the players of this game mostly are influenced in their interactions by emotion, the AI should feel and react to emotions as well.\par 
 The input of a real company means that to us, this project was quite exciting. That our code may one day be used by anyone other than ourselves is a better prospect for reuse than we are used to from other projects. The specific task of this subgroup is to provide the group that is responsible for the agents with an integration of GAMYGDALA in GOAL. It is not our task to implement new functionality, but rather make GAMYGDALAs functionality available in GOAL.  With this added functionality programmers such as the other groups can, when creating virtual humans, let GAMYGDALA give their agents emotions and can base decisions off of those.\par 
@@ -78,7 +78,7 @@ The main goal of the project is giving a programmer in GOAL the ability to provi
 This section contains short descriptions of each of the parts of GOAL\cite{GOAL Env} that we modified or extended. In short, we create a GAMYGDALA instance in the GOAL runtime, read settings from a configuration file for emotions, render input for GAMYGDALA based on these settings and the real-time input regarding goals from the GOAL environment, and insert GAMYGDALA's output into the agents database.
 
 \subsection{Emotion configuration}
-The emotion configuration is the most extensive part of our implementation. It is a file which holds all the GAMYGDALA settings for a GOAL program. Its content is examined in more detail in the emotionconfig documentation document.
+The emotion configuration\cite{emotionconfig} is the most extensive part of our implementation. It is a file which holds all the GAMYGDALA settings for a GOAL program. Its content is examined in more detail in the Emotionconfig documentation document.
 
 \subsection{Parser}
 To be able to use the EmotionConfig in GOAL we had to write a parser for the EmotionConfig. The parsing for the goal and mas2g files in GOAL is done by using the parsing tool ANTLR. However, after we made up a syntax for the emotion configuration we thought it would be overly complicated to use ANTLR for this parser.\\
@@ -102,17 +102,17 @@ The Grammar repository is where we had to add code to give goal programmers the 
 Runtime\\ 
 In the Runtime repository the emotions had to be handled during runtime. This was done by connecting the adding and dropping of goals in GOAL to the GAMYGDALA engine and by making sure that the emotion updates from the Gamydala engine were handled and added to a base similar to how percepts are updated every cycle. We implemented this by adding calls in the existing code to functions that we made to handle the emotions. For the structure of our functions we looked at how the existing code handled similar situations. After some initial time to get to know the existing code base we were able to implement the functionality we wanted in this repository relatively easily. However, when we tried to add a seperate EmotionBase for emotions rather than inserting them into the PerceptBase we ran into some trouble at the mentalstate level. \par 
 MentalState\\
-To create an emotion base we had to make changes to the mentalstate repository. Since the emotion base was supposed to be very similar to the percept base, the code that we added in this repository was based on the existing code for the percept base. This repository is also where we had to make sure that the emotion information was inserted into the prolog knowledge base, and while this seemed to be simple enough this is where we ran into trouble. \par 
-The difficulties with the addition of the emotion base mostly seemed to stem from issues with the dependencies between the repositories and the complexity of the classes managing the interface between GOAL and prolog. Because the existing code base was large and marginally tested and comments did not explain every quirk or error this made it difficult to comprehend why our addition was not working as we intended. This showed that when writing software it is critical to maintain good testing coverage and integration testing, which the existing code lacked. We also learned that when you want to implement new functionality into an existing code base with some hurry, it is best to focus solely on functionality and following conventions already put into practice in the existing code rather than trying to implement by the book. An obvious downside of this method is that we had no test structure to fall back on when for example the emotionbase did not function as we expected. We believe this trade-off for functionality was worth it, as we do now have all GAMYGDALAs functionality implemented with not a lot of time to spare.\par
+To create an emotion base we had to make changes to the Mentalstate repository. Since the emotion base was supposed to be very similar to the percept base, the code that we added in this repository was based on the existing code for the percept base. This repository is also where we had to make sure that the emotion information was inserted into the Prolog knowledge base, and while this seemed to be simple enough this is where we ran into trouble. \par 
+The difficulties with the addition of the emotion base mostly seemed to stem from issues with the dependencies between the repositories and the complexity of the classes managing the interface between GOAL and Prolog. Because the existing code base was large and marginally tested and comments did not explain every quirk or error this made it difficult to comprehend why our addition was not working as we intended. This showed that when writing software it is critical to maintain good testing coverage and integration testing, which the existing code lacked. We also learned that when you want to implement new functionality into an existing code base with some hurry, it is best to focus solely on functionality and following conventions already put into practice in the existing code rather than trying to implement by the book. An obvious downside of this method is that we had no test structure to fall back on when for example the emotionbase did not function as we expected. We believe this trade-off for functionality was worth it, as we do now have all GAMYGDALAs functionality implemented with not a lot of time to spare.\par
 SimpleIDE\\
-In the simpleIDE we wanted to be able to show the emotions from the EmotionBase similar to how percepts, messages, and beliefs are shown in their own tab. We were able to add the emotion tab, where facts inserted into the emotionbase are displayed, but these facts are not visible to an agent at prolog level, so we cannot show this function in our release version, where emotion is added to the percepts.
+In the simpleIDE we wanted to be able to show the emotions from the EmotionBase similar to how percepts, messages, and beliefs are shown in their own tab. We were able to add the emotion tab, where facts inserted into the Emotionbase are displayed, but these facts are not visible to an agent at prolog level, so we cannot show this function in our release version, where emotion is added to the percepts.
 
 \subsection{Process}
 We made use of \gls{SCRUM}, an incremental and iterative software development process. Every week we made a scrum plan and at the end of the week we reflected on this plan and made a new one. Initially the tasks we made were not very fitting for scrum, they were somewhat too generic and did not lead to something we could demo. We were able to use the feedback given by the TA and the problems we encountered in our weekly scrums to improve our scrum process over the course of the project. \par 
-We used git\cite{git} on the social platform GitHub\cite{GitHub} in combination with TravisCI\cite{TravisCI} and Maven\cite{Maven} for our code versioning and continuous integration. The code bases we used were already on github and after cloning them to our own repositories we later had some troubles with the POM-files which were still referring to the original repositories. This problem came back several times, and we should probably have fixed this initially so any new issues would have been smaller and therefore easier to solve. \par 
+We used git\cite{git} on the social platform GitHub\cite{GitHub} in combination with TravisCI\cite{TravisCI} and Maven\cite{Maven} for our code versioning and continuous integration. The code bases we used were already on Github and after cloning them to our own repositories we later had some troubles with the POM-files which were still referring to the original repositories. This problem came back several times, and we should probably have fixed this initially so any new issues would have been smaller and therefore easier to solve. \par 
 Another problem we encountered here was that the original code already failed when doing integration tests, this was caused by the tests trying to open a gui which was not possible in a virtual machine used by, for example, \gls{TravisCI}. To solve this we had to ignore a few tests. Regarding testing, the original code lacked good test coverage and integration testing. Due to the difficulty of integration testing the whole code base including our new code we decided to focus our testing efforts on making unit tests involving the code we added to the existing code. However, the lack of integration tests available often make it hard to find where errors originated and which functions to unit test. Unit tests took significant time to write because there were usually no tests already included in GOAL for similar functions. \par 
-The original code also had a ton of Checkstyle errors and a lot of errors from the Maven Javadoc tool. We did not use Checkstyle because the GOAL repositories do not include a checkstyle template and do not seem to follow many style conventions that checkstyle checks for. If we followed checkstyle conventions only for the functions we added that would not be a significant change in checkstyle compliance and fixing entire classes (often hundreds of lines) would take a lot of time and would not contribute much to the project. We concluded that formatting our code to checkstyle would not be worthwile.\\
-When we enabled the Maven Javadoc tool included in most GOAL repositories as a dependency the code would not compile because of the warnings it generates. We disabled javadoc checking for most projects.\par
+The original code also had a ton of Checkstyle errors and a lot of errors from the Maven Javadoc tool. We did not use Checkstyle because the GOAL repositories do not include a Checkstyle template and do not seem to follow many style conventions that Checkstyle checks for. If we followed Checkstyle conventions only for the functions we added that would not be a significant change in Checkstyle compliance and fixing entire classes (often hundreds of lines) would take a lot of time and would not contribute much to the project. We concluded that formatting our code to Checkstyle would not be worthwhile.\\
+When we enabled the Maven Javadoc tool included in most GOAL repositories as a dependency the code would not compile because of the warnings it generates. We disabled Javadoc checking for most projects.\par
 This was also the first project where we made use of a pull-based development model. Initially we made some mistakes by pulling changes in the master onto our own base instead of rebasing. We also learned to squash a lot of small changes into fewer more substantial commits to make it easier to track the changes that were made. 
 \clearpage
 
@@ -120,7 +120,7 @@ This was also the first project where we made use of a pull-based development mo
 This section will describe how we tried to validate the interaction of our users with our product. First there will be a description of the method used to gain feedback then the results from this will be discussed after which there will be an explanation of how we processed this feedback. Finally there will be a short discussion on what could be done to gain more valuable feedback.
 
 \subsection{Used Method}
-The way we gained feedback from users on our product was to ask the project group that is assigned to code the virtual human in GOAL to complete a tutorial we wrote, which is included as Appendix B. This is a perfect group to do this with since they will have to work with our program to complete their own, they have experience with GOAL and know a little bit about GAMYGDALA. They are a perfect example of our typical end user. They were asked to think out loud so that it was possible to identify any issues they were having. The recording of this session is attached to this report.
+The way we gained feedback from users on our product was to ask the project group, that is assigned to code the virtual human in GOAL, to complete a tutorial\cite{tutorial} we created. In this tutorial you can find all the specific details on what they had to implement and what functionalities to use. This is a perfect group to do this with since they will have to work with our program to complete their own, they have experience with GOAL and know a little bit about GAMYGDALA. They are a perfect example of our typical end user. They were asked to think out loud so that it was possible to identify any issues they were having. The recording of this session is attached to this report.
 
 Sadly enough only three people of the other group were available, they worked on the tutorial in one team. This felt like the best setup because thinking out loud feels more natural when there are other people to talk to.
 
@@ -128,14 +128,14 @@ Sadly enough only three people of the other group were available, they worked on
 From the feedback gained it became obvious that some of our documentation was not yet clear enough. There were three identifiable issues with the documentation:
 
 \begin{itemize}
-	\item Sometimes details about the behaviour of an option were missing.
+	\item Sometimes details about the behavior of an option were missing. For example it was hard for them to identify what exactly the congruence is, and what exactly the purpose of utility is, etc.
 	\item Sometimes information was not easily found. For example, details users were looking for were mentioned in a global entry in the documentation but was not repeated in the entry for a specific option.
 	\item Some information in the guide was outdated. The configuration options had been changed after the documentation was written.
 \end{itemize}
 
 Furthermore we identified one bug in the program when the users were working on the tutorial. 
 \subsection{Reaction}
-The details that were still missing in the documentation have been added and we have restructured the document to ensure all information about an aspect of the config is included in one section. The outdated information in the document was updated. The bug that was identified has since been fixed.
+The details that were still missing in the documentation have been added and we have restructured the document to ensure all information about an aspect of the configuration is included in one section. The outdated information in the document was updated. The bug that was identified has since been fixed.
 
 \subsection{Commentary}
 The feedback we were given was somewhat superficial, it was certainly useful feedback, but sadly the other teams did not have enough time to use the program for an extended period of time and then have an interview with us. Pretty much all of the received feedback was feedback on the documentation, we feel that if they would have spent more time using our program that we would have received more valuable feedback on missing features and the usability of our implemented features. However, we understand they could not, given the time constraints imposed by project deadlines. The agent group still had work to do on implementing their strategy. We had initially negotiated to have this session a few days earlier while they still had more time.
@@ -175,7 +175,7 @@ There are default values for all the parameters available to GAMYGDALA and many 
 
 
 \subsection{Emotion configuration options}
-In this section an overview is given of the options in the emotion configuration file. A selection of these options will be examined more closely.For more detailed descriptions of every option and their grammar, please refer to the EmotionConfig Documentation in Appendix C. 
+In this section an overview is given of the options in the emotion configuration file. A selection of these options will be examined more closely. For more detailed descriptions of every option and their syntax, please refer to the EmotionConfig Documentation\cite{emotionconfig}. 
 
 The emotion configuration file is optional. If it is not present in the same folder as the agent file, only default values will be used. If any options are not specified in the emotion configuration file, default values will be used.
 
@@ -249,26 +249,26 @@ Finally, in terms of code quality there can always be improvements of course. So
 	\bibitem{GOAL Env}
 	Koen V. Hindriks, Delft University of technology\\
 	Programming rational agents in GOAL\\
-	R.H. Bordini et al. (eds.), Multi-Agent Programming , DOI 10.1007/978-0-387-89299-3_4, © Springer Science + Business Media, LLC 2009 \\
+	R.H. Bordini et al. (eds.), Multi-Agent Programming , DOI 10.1007/978-0-387-89299-3\_4, Springer Science + Business Media, LLC 2009 \\
 
 	\bibitem{GOAL}
-	GOAL programming language
+	GOAL programming language\\
 	\url{http://ii.tudelft.nl/trac/goal}
 	
 	\bibitem{GAMYGDALA}
-	GAMYGDALA emotion engine
+	GAMYGDALA emotion engine\\
 	\url{http://ii.tudelft.nl/~joostb/GAMYGDALA/index.html}
 	
 	\bibitem{MoSCoW}
-	MoScoW method
+	MoScoW method\\
 	\url{http://en.wikipedia.org/wiki/MoSCoW_method }
 	
 	\bibitem{Tygron}
-	Tygron engine
+	Tygron engine\\
 	\url{http://www.tygron.com }
 	
 	\bibitem{SimpleIDE}
-	Simple IDE
+	Simple IDE\\
 	\url{https://github.com/goalhub/simpleIDE }
 	
 	\bibitem{failure}
@@ -282,29 +282,36 @@ Finally, in terms of code quality there can always be improvements of course. So
 	JOURNAL OF IEEE TRANSACTIONS ON AFFECTIVE COMPUTING, 2014 vol. 5\\
 
 	\bibitem{productplan}
-	Product plan: GROUP 3
+	Product plan: GROUP 3\\
 	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Product\%20plan/Product-plan.pdf}
 	
 	\bibitem{SCRUM}
-	SCRUM method
+	SCRUM method\\
 	\url{https://nl.wikipedia.org/wiki/Scrum_(softwareontwikkelmethode)}
 	
 	\bibitem{git}
-	git
+	git\\
 	\url{https://git-scm.com }
 	
 	\bibitem{GitHub}
-	GitHub
+	GitHub\\
 	\url{https://github.com }
 	
 	\bibitem{TravisCI}
-	TravisCI
+	TravisCI\\
 	\url{https://travis-ci.org }
 	
 	\bibitem{Maven}
-	Maven
+	Maven\\
 	\url{https://maven.apache.org }
 	
+	\bibitem{emotionconfig}
+	EmotionConfig Documentation\\
+	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Documentation/EmotionConfig\%20Documentation.pdf }
+		
+	\bibitem{Maven}
+	Maven
+	\url{https://maven.apache.org }
 	
 \end{thebibliography}
 
