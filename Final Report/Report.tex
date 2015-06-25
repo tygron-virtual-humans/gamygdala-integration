@@ -5,6 +5,7 @@
 \usepackage{glossaries}
 \usepackage[T1]{fontenc}
 \usepackage[toc,page]{appendix}
+\usepackage[margin=1in]{geometry}
 \makeglossaries
 
 \newglossaryentry{SCRUM}
@@ -59,7 +60,9 @@
 \pagebreak
 \tableofcontents
 \pagebreak
+
 \section{Abstract}
+In this document we present a version of the GOAL project which contains the GAMYGDALA engine for emotions. We aim to let developers use GAMYGDALAs functionality from within the GOAL environment with minimal effort. An agents emotional state is continuously evaluated based on parameters defined in a configuration file and inserted into the mental representation of the agent. We have chosen this approach to strike a balance between achieving ease of use for developers and offering the advanced functionality of GAMYGDALA. This article states our goals, explains the development process and highlights the differences between vanilla GOAL and the version that includes GAMYGDALA.
 
 \clearpage
 
@@ -257,19 +260,19 @@ Finally, in terms of code quality there can always be improvements of course. So
 	
 	\bibitem{GAMYGDALA}
 	GAMYGDALA emotion engine\\
-	\url{http://ii.tudelft.nl/~joostb/GAMYGDALA/index.html}
+	\url{http://ii.tudelft.nl/~joostb/gamygdala/index.html}
 	
 	\bibitem{MoSCoW}
 	MoScoW method\\
-	\url{http://en.wikipedia.org/wiki/MoSCoW_method }
+	\url{http://en.wikipedia.org/wiki/MoSCoW_method}
 	
 	\bibitem{Tygron}
 	Tygron engine\\
-	\url{http://www.tygron.com }
+	\url{http://www.tygron.com}
 	
 	\bibitem{SimpleIDE}
 	Simple IDE\\
-	\url{https://github.com/goalhub/simpleIDE }
+	\url{https://github.com/goalhub/simpleIDE}
 	
 	\bibitem{failure}
 	J. C. Laprie (Ed.).\\ 
@@ -291,27 +294,27 @@ Finally, in terms of code quality there can always be improvements of course. So
 	
 	\bibitem{git}
 	git\\
-	\url{https://git-scm.com }
+	\url{https://git-scm.com}
 	
 	\bibitem{GitHub}
 	GitHub\\
-	\url{https://github.com }
+	\url{https://github.com}
 	
 	\bibitem{TravisCI}
 	TravisCI\\
-	\url{https://travis-ci.org }
+	\url{https://travis-ci.org}
 	
 	\bibitem{Maven}
 	Maven\\
-	\url{https://maven.apache.org }
+	\url{https://maven.apache.org}
 	
 	\bibitem{emotionconfig}
 	EmotionConfig Documentation\\
-	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Documentation/EmotionConfig\%20Documentation.pdf }
+	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Documentation/EmotionConfig\%20Documentation.pdf}
 		
 	\bibitem{tutorial}
 	Turorial for HCI section\\
-	\url{https://maven.apache.org }
+	\url{https://github.com/tygron-virtual-humans/Integration-documents/blob/master/Tutorial/Demo\%20Tutorial.pdf}
 	
 	\bibitem{recording}
 	Recorded audio from HCI meeting\\
